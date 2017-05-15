@@ -214,7 +214,7 @@
                                                class="btn btn-default"><i class="fa fa-external-link"></i> - Al
                                             banquillo</a></td>
                                     {% endif %}
-                                    <td><a id="removePlayer" href="{% url 'scout:remove_player_from_squad' jugador.id %}"
+                                    <td><a onclick="return confirm('¿Seguro que desea realizar esta operación?')" id="removePlayer" href="{% url 'scout:remove_player_from_squad' jugador.id %}"
                                            class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
                                     </td>
                                 </tr>
@@ -239,7 +239,7 @@
                                                class="btn btn-default"><i class="fa fa-external-link"></i> - Al
                                             banquillo</a></td>
                                     {% endif %}
-                                    <td><a id="removePlayer" href="{% url 'scout:remove_player_from_squad' jugador.id %}"
+                                    <td><a onclick="return confirm('¿Seguro que desea realizar esta operación?')" id="removePlayer" href="{% url 'scout:remove_player_from_squad' jugador.id %}"
                                            class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
                                     </td>
                                 </tr>
@@ -264,7 +264,7 @@
                                                class="btn btn-default"><i class="fa fa-external-link"></i> - Al
                                             banquillo</a></td>
                                     {% endif %}
-                                    <td><a id="removePlayer" href="{% url 'scout:remove_player_from_squad' jugador.id %}"
+                                    <td><a onclick="return confirm('¿Seguro que desea realizar esta operación?')" id="removePlayer" href="{% url 'scout:remove_player_from_squad' jugador.id %}"
                                            class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
                                     </td>
                                 </tr>
@@ -290,7 +290,7 @@
                                             banquillo</a></td>
                                     {% endif %}
                                     <td><a id="removePlayer" href="{% url 'scout:remove_player_from_squad' jugador.id %}"
-                                           class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
+                                           onclick="return confirm('¿Seguro que desea realizar esta operación?')" class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
                                     </td>
                                 </tr>
                             {% endfor %}

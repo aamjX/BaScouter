@@ -92,7 +92,7 @@
                                            class="btn btn-default"><i
                                             class="fa fa-eye" aria-hidden="true"></i> - Explorar</a><s></s></td>
                                     {% if player.id in players_id %}
-                                        <td><a id="removePlayer" href="{% url 'scout:remove_player_from_squad' player.id %}"
+                                        <td><a onclick="return confirm('¿Seguro que desea realizar esta operación?')" id="removePlayer" href="{% url 'scout:remove_player_from_squad' player.id %}"
                                                class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
                                         </td>
                                     {% else %}
