@@ -25,6 +25,7 @@ def principal_view(request):
 
 '''----------------------------------------------------------------------------------------------------------'''
 
+
 def team_list(request, championship_id):
     championship = Championship.objects.get(pk=championship_id)
     teamsCount = len(championship.team_set.all())
@@ -52,8 +53,10 @@ def player_list(request, team_id):
     return render(request, 'scout/player_list.html',
                   {'players': team.player_set.all(), 'team': team, 'players_id': players_id})
 
+
 def squad_list(request):
     squads = Squad.objects.all()
+    print(squads)
     sorted_squads = []
     sorted_squad_single = []
     sqd = []
@@ -73,9 +76,9 @@ def squad_list(request):
         sorted_squad_single = []
         list_all = zip(sqd, sorted_squads)
         squads_id = favAlineaciones_ID_ByUser(request.user)
-
     return render(request, 'scout/squad_list.html',
                   {'squads': list_all, 'squads_id': squads_id})
+
 
 '''----------------------------------------------------------------------------------------------------------'''
 
@@ -83,8 +86,8 @@ def squad_list(request):
 
 '''----------------------------------------------------------------------------------------------------------'''
 
-def player_profile(request, player_id):
 
+def player_profile(request, player_id):
     if Player.objects.filter(id=player_id).exists():
 
         player = Player.objects.get(id=player_id)
@@ -92,73 +95,13 @@ def player_profile(request, player_id):
 
         squad = Squad.objects.get(user=request.user)
 
-        for player in squad.players.all():
-            players_id.append(player.id)
+        for p in squad.players.all():
+            players_id.append(p.id)
 
         return render(request, 'scout/player_profile.html', {'player': player, 'players_id': players_id})
 
     else:
-
         return render(request, 'error/error_1.html')
-
-def add_player_to_squad(request, player_id):
-    if Player.objects.filter(id=player_id).exists():
-        user = request.user
-        squad = Squad.objects.get(user=user)
-        player = Player.objects.get(id=player_id)
-        team = player.team
-        squad.players.add(player)
-        return render(request, 'scout/congratulations.html', {'team': team, 'player': player, 'isAdd': True})
-    else:
-        return render(request, 'error/error_1.html')
-
-
-def remove_player_from_squad(request, player_id):
-    if Player.objects.filter(id=player_id).exists():
-        user = request.user
-        squad = Squad.objects.get(user=user)
-        player = Player.objects.get(id=player_id)
-        team = player.team
-        squad.players.remove(player)
-        if player in squad.principals.all():
-            squad.titulares.remove(player)
-        return render(request, 'scout/congratulations.html', {'team': team, 'player': player, 'isAdd': False})
-    else:
-        return render(request, 'error/error_1.html')
-
-
-
-def hacer_titular(request, jugador_id):
-    user = request.user
-    alineacion = Squad.objects.get(user=user)
-    jugador = Player.objects.get(id=jugador_id)
-    alineacion.titulares.add(jugador)
-    now = time.strftime("%Y-%m-%d")
-    alineacion.ultimaActualizacion = now
-    alineacion.save()
-    meGustas = Like.objects.all().filter(squad=alineacion)
-    for mG in meGustas:
-        mG.delete()
-    jugador.popularidad += 1
-    jugador.save()
-    return redirect('scout:gestionar_alineacion')
-
-
-def hacer_suplente(request, jugador_id):
-    user = request.user
-    alineacion = Squad.objects.get(user=user)
-    jugador = Player.objects.get(id=jugador_id)
-    alineacion.titulares.remove(jugador)
-    now = time.strftime("%Y-%m-%d")
-    alineacion.ultimaActualizacion = now
-    alineacion.save()
-    meGustas = Like.objects.all().filter(squad=alineacion)
-    for mG in meGustas:
-        mG.delete()
-    jugador.popularidad -= 1
-    return redirect('scout:gestionar_alineacion')
-
-
 
 
 '''----------------------------------------------------------------------------------------------------------'''
@@ -214,6 +157,84 @@ def squad_edit(request):
     return render(request, 'scout/squad_edit.html', {'form': form})
 
 
+def add_player_to_squad(request, player_id):
+    if Player.objects.filter(id=player_id).exists():
+        user = request.user
+        squad = Squad.objects.get(user=user)
+        player = Player.objects.get(id=player_id)
+        team = player.team
+        squad.players.add(player)
+        return render(request, 'scout/congratulations.html', {'team': team, 'player': player, 'isAdd': True})
+    else:
+        return render(request, 'error/error_1.html')
+
+
+def remove_player_from_squad(request, player_id):
+    if Player.objects.filter(id=player_id).exists():
+        user = request.user
+        squad = Squad.objects.get(user=user)
+        player = Player.objects.get(id=player_id)
+        team = player.team
+        squad.players.remove(player)
+        if player in squad.principals.all():
+            squad.principals.remove(player)
+        return render(request, 'scout/congratulations.html', {'team': team, 'player': player, 'isAdd': False})
+    else:
+        return render(request, 'error/error_1.html')
+
+
+def add_to_principals(request, player_id):
+    if Player.objects.filter(id=player_id).exists():
+
+        user = request.user
+        squad = Squad.objects.get(user=user)
+        player = Player.objects.get(id=player_id)
+        squad.principals.add(player)
+        now = time.strftime("%Y-%m-%d")
+        squad.lastUpdate = now
+        squad.save()
+        likes = Like.objects.all().filter(squad=squad)
+        for l in likes:
+            l.delete()
+        if player.likes == None:
+            player.likes = 0
+        player.likes += 1
+        player.save()
+        return redirect('scout:manage_squad')
+
+    else:
+
+        return render(request, 'error/error_1.html')
+
+
+def remove_from_principals(request, player_id):
+    if Player.objects.filter(id=player_id).exists():
+        user = request.user
+        squad = Squad.objects.get(user=user)
+        player = Player.objects.get(id=player_id)
+        squad.principals.remove(player)
+        now = time.strftime("%Y-%m-%d")
+        squad.lastUpdate = now
+        squad.save()
+        likes = Like.objects.all().filter(squad=squad)
+        for l in likes:
+            l.delete()
+        player.likes -= 1
+        player.save()
+
+        return redirect('scout:manage_squad')
+
+    else:
+        return render(request, 'error/error_1.html')
+
+
+'''----------------------------------------------------------------------------------------------------------'''
+
+'''Funciones relacionadas con la popularidad'''
+
+'''----------------------------------------------------------------------------------------------------------'''
+
+
 def addMeGusta(request, alineacion_id):
     alineacion = Squad.objects.get(id=alineacion_id)
     if not Like.objects.filter(user=request.user, squad=alineacion).exists():
@@ -234,17 +255,6 @@ def removeMeGusta(request, alineacion_id):
         alineacion.save()
 
         return redirect(reverse('scout:listar_alineaciones') + '#alineacion' + str(alineacion.id))
-
-
-def favAlineaciones_ID_ByUser(principal_user):
-    alinaciones_id = []
-    user = principal_user
-    user_meGustas = Like.objects.all().filter(user=user)
-
-    for uMG in user_meGustas:
-        alinaciones_id.append(uMG.alineacion.id)
-
-    return alinaciones_id
 
 
 '''----------------------------------------------------------------------------------------------------------'''
@@ -464,3 +474,14 @@ def ratingCalculte(jugadores, user, temporada):
     result = sorted(result, reverse=True)
 
     return result
+
+
+def favAlineaciones_ID_ByUser(principal_user):
+    alinaciones_id = []
+    user = principal_user
+    user_meGustas = Like.objects.all().filter(user=user)
+
+    for uMG in user_meGustas:
+        alinaciones_id.append(uMG.squad.id)
+
+    return alinaciones_id

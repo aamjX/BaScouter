@@ -4,9 +4,7 @@
 {% load humanize %}
 
 {% block content %}
-
     <div class="container">
-    {% if squads|length != 0 %}
         <div class="row">
             {% for alineacion, titulares in squads %}
                 <a name="alineacion{{ alineacion.id }}"></a>
@@ -24,7 +22,8 @@
                                             class="fa fa-heart"
                                             aria-hidden="true"></i></a>{% endif %} {{ alineacion.like_set.all|length }}
                                     | <i class="fa fa-user" aria-hidden="true"></i>:
-                                    <a href="{% url 'usuario:perfil' alineacion.user.id %}">{{ alineacion.user.username }}</a> |
+                                    <a href="{% url 'usuario:profile' alineacion.user.id %}">{{ alineacion.user.username }}</a>
+                                    |
                                     <a class="twitter-share-button"
                                        href="https://twitter.com/intent/tweet?text=Estoy%20utilizando%20BaScouter%20y...">
                                         <i class="fa fa-twitter" aria-hidden="true"></i></a>
@@ -46,37 +45,45 @@
                                         <tr class="text-center">
                                             <td><img src="{{ jugador.image }}"
                                                      style="width:24px; height: auto; border-radius: 4px"></td>
-                                            <td><a href="{% url 'scout:player_profile' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.name }}</a></td>
+                                            <td><a href="{% url 'scout:player_profile' jugador.id %}"><p
+                                                    style="line-height:25px"></p>{{ jugador.name }}</a></td>
                                             <td><span class="pos-1">PT</span></td>
-                                            <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img src="{{ jugador.team.badge }}"
-                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                            <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img
+                                                    src="{{ jugador.team.badge }}"
+                                                    style="width:24px; height: auto; border-radius: 4px"></a></td>
                                         </tr>
                                     {% elif 'Defensa' in jugador.position %}
                                         <tr class="text-center">
                                             <td><img src="{{ jugador.image }}"
                                                      style="width:24px; height: auto; border-radius: 4px"></td>
-                                            <td><a href="{% url 'scout:player_profile' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.alias }}</a></td>
+                                            <td><a href="{% url 'scout:player_profile' jugador.id %}"><p
+                                                    style="line-height:25px"></p>{{ jugador.name }}</a></td>
                                             <td><span class="pos-2">DF</span></td>
-                                            <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img src="{{ jugador.team.badge }}"
-                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                            <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img
+                                                    src="{{ jugador.team.badge }}"
+                                                    style="width:24px; height: auto; border-radius: 4px"></a></td>
                                         </tr>
                                     {% elif 'Medio' in jugador.position %}
                                         <tr class="text-center">
                                             <td><img src="{{ jugador.image }}"
                                                      style="width:24px; height: auto; border-radius: 4px"></td>
-                                            <td><a href="{% url 'scout:player_profile' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.name }}</a></td>
+                                            <td><a href="{% url 'scout:player_profile' jugador.id %}"><p
+                                                    style="line-height:25px"></p>{{ jugador.name }}</a></td>
                                             <td><span class="pos-3">MC</span></td>
-                                            <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img src="{{ jugador.team.badge }}"
-                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                            <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img
+                                                    src="{{ jugador.team.badge }}"
+                                                    style="width:24px; height: auto; border-radius: 4px"></a></td>
                                         </tr>
                                     {% elif 'Delantero' in jugador.position %}
                                         <tr class="text-center">
                                             <td><img src="{{ jugador.image }}"
                                                      style="width:24px; height: auto; border-radius: 4px"></td>
-                                            <td><a href="{% url 'scout:player_profile' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.name }}</a></td>
+                                            <td><a href="{% url 'scout:player_profile' jugador.id %}"><p
+                                                    style="line-height:25px"></p>{{ jugador.name }}</a></td>
                                             <td><span class="pos-4  ">MC</span></td>
-                                            <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img src="{{ jugador.team.badge }}"
-                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                            <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img
+                                                    src="{{ jugador.team.badge }}"
+                                                    style="width:24px; height: auto; border-radius: 4px"></a></td>
                                         </tr>
                                     {% endif %}
 
@@ -85,18 +92,17 @@
                             </table>
                             <div class="row" style="font-size: 12px; color:#455D7A">
                                 <div class="col-md-12">
-                                    <p>&nbsp;<strong>Valor:</strong> {{ alineacion.value|intcomma }} € - <strong>Edad media:</strong> {{ alineacion.averageAge }} años</p>
+                                    <p>&nbsp;<strong>Valor:</strong> {{ alineacion.value|intcomma }} € - <strong>Edad
+                                        media:</strong> {{ alineacion.averageAge }} años</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% endif %}
-
             {% endfor %}
         </div>
-    {% else %}
-        <div class="row"><div class="col-md-12 text-center"><h3>No hay registros de alineaciones en el sistema</h3><br><br></div></div>
-    {% endif %}
+
+
     </div>
 
 {% endblock %}

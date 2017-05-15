@@ -7,7 +7,7 @@
     <section class="descripcion-alineacion">
         <div class="container">
             <div class="row">
-                {% if titulares_id %}
+                {% if principals_id %}
                     <div class="col-md-7">
                         <div class="box-border">
                             <table id="gestion-equipo" class="table table-hover table-list-search">
@@ -28,11 +28,11 @@
                                         <tr class="text-center">
                                             <td><img src="{{ jugador.image }}"
                                                      style="width:24px; height: auto; border-radius: 4px"></td>
-                                            <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p style="line-height:25px">{{ jugador.name }}</p></a></td>
+                                            <td><a href="{% url 'scout:player_profile' jugador.id %}"><p style="line-height:25px">{{ jugador.name }}</p></a></td>
                                             <td><span class="pos-1">PT</span></td>
                                             <td><p style="line-height:25px">{{ jugador.position }}</p></td>
                                             <td><p style="line-height:25px">{{ jugador.value|intcomma }} €</p></td>
-                                            <td><a href="{% url 'scout:equipo' jugador.team.id %}"><img src="{{ jugador.team.badge }}"
+                                            <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img src="{{ jugador.team.badge }}"
                                                  style="width:24px; height: auto; border-radius: 4px"></a></td>
                                         </tr>
                                     {% endif %}
@@ -159,8 +159,9 @@
     <section class="jugadores-alineacion">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <hr>
+                <div class="col-md-12"> <hr></div>
+                <div class="col-md-2 text-center"><a data-toggle="collapse" data-target="#modo-ultra"  class="btn btn-default" style="width:100%; color:#455D7A;"><i class="fa fa-mouse-pointer"></i> ¡Reglamento!</a></div>
+                <div class="col-md-10">
                     <form action="#" method="get">
                         <div class="input-group">
                             <span style="background-color: #E3E3E3; color: #455D7A;" class="input-group-addon"
@@ -171,6 +172,18 @@
                         </div>
                         <br>
                     </form>
+                </div>
+                <div class="col-md-12">
+                                <div class="collapse" id="modo-ultra">
+                    <br>
+                    <div class="alert alert-info"
+                         style="background-color: white; border: 1px solid #455D7A; color:#455D7A; ">
+                        <p>- Para que se considere una alineación y se muestre en el listado de plantillas, el tamaño debe ser de 11 jugadores exactamente.</p>
+                        <p>- Cuando añada o elimine jugadores de su alineación (no de su listado de jugadores), la popularidad de su equipo pasará a ser 0. Puesto
+                        que se considerará como uno nuevo.</p>
+                        <p>- La popularidad como usuario se mantiene, tanto si añade como si elimina jugadores.</p>
+                    </div>
+                </div>
                 </div>
             </div>
             <div class="row">
@@ -206,11 +219,11 @@
                                     <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img src="{{ jugador.team.badge }}"
                                                  style="width:28px; height: auto; border-radius: 4px"></a></td>
                                     {% if jugador.id not in principals_id %}
-                                        <td><a id="addPlayer" href="{% url 'scout:hacerTitular' jugador.id %}"
+                                        <td><a onclick="return confirm('Si modificas tu alineación, pasará a ser un nuevo equipo y su popularidad se pondrá a 0.')" id="addPlayer" href="{% url 'scout:add_to_principals' jugador.id %}"
                                                class="btn btn-default"><i class="fa fa-trophy"></i> - Hacer titular</a>
                                         </td>
                                     {% else %}
-                                        <td><a id="alBanquillo" href="{% url 'scout:hacerSuplente' jugador.id %}"
+                                        <td><a onclick="return confirm('Si modificas tu alineación, pasará a ser un nuevo equipo y su popularidad se pondrá a 0.')" id="alBanquillo" href="{% url 'scout:remove_from_principals' jugador.id %}"
                                                class="btn btn-default"><i class="fa fa-external-link"></i> - Al
                                             banquillo</a></td>
                                     {% endif %}
@@ -231,11 +244,11 @@
                                     <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img src="{{ jugador.team.badge }}"
                                                  style="width:28px; height: auto; border-radius: 4px"></a></td>
                                     {% if jugador.id not in principals_id %}
-                                        <td><a id="addPlayer" href="{% url 'scout:hacerTitular' jugador.id %}"
+                                        <td><a onclick="return confirm('Si modificas tu alineación, pasará a ser un nuevo equipo y su popularidad se pondrá a 0.')" id="addPlayer" href="{% url 'scout:add_to_principals' jugador.id %}"
                                                class="btn btn-default"><i class="fa fa-trophy"></i> - Hacer titular</a>
                                         </td>
                                     {% else %}
-                                        <td><a id="alBanquillo" href="{% url 'scout:hacerSuplente' jugador.id %}"
+                                        <td><a onclick="return confirm('Si modificas tu alineación, pasará a ser un nuevo equipo y su popularidad se pondrá a 0.')" id="alBanquillo" href="{% url 'scout:remove_from_principals' jugador.id %}"
                                                class="btn btn-default"><i class="fa fa-external-link"></i> - Al
                                             banquillo</a></td>
                                     {% endif %}
@@ -256,11 +269,11 @@
                                     <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img src="{{ jugador.team.badge }}"
                                                  style="width:28px; height: auto; border-radius: 4px"></a></td>
                                     {% if jugador.id not in principals_id %}
-                                        <td><a id="addPlayer" href="{% url 'scout:hacerTitular' jugador.id %}"
+                                        <td><a onclick="return confirm('Si modificas tu alineación, pasará a ser un nuevo equipo y su popularidad se pondrá a 0.')" id="addPlayer" href="{% url 'scout:add_to_principals' jugador.id %}"
                                                class="btn btn-default"><i class="fa fa-trophy"></i> - Hacer titular</a>
                                         </td>
                                     {% else %}
-                                        <td><a id="alBanquillo" href="{% url 'scout:hacerSuplente' jugador.id %}"
+                                        <td><a onclick="return confirm('Si modificas tu alineación, pasará a ser un nuevo equipo y su popularidad se pondrá a 0.')" id="alBanquillo" href="{% url 'scout:remove_from_principals' jugador.id %}"
                                                class="btn btn-default"><i class="fa fa-external-link"></i> - Al
                                             banquillo</a></td>
                                     {% endif %}
@@ -281,11 +294,11 @@
                                     <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img src="{{ jugador.team.badge }}"
                                                  style="width:28px; height: auto; border-radius: 4px"></a></td>
                                     {% if jugador.id not in principals_id %}
-                                        <td><a id="addPlayer" href="{% url 'scout:hacerTitular' jugador.id %}"
+                                        <td><a onclick="return confirm('Si modificas tu alineación, pasará a ser un nuevo equipo y su popularidad se pondrá a 0.')" id="addPlayer" href="{% url 'scout:add_to_principals' jugador.id %}"
                                                class="btn btn-default"><i class="fa fa-trophy"></i> - Hacer titular</a>
                                         </td>
                                     {% else %}
-                                        <td><a id="alBanquillo" href="{% url 'scout:hacerSuplente' jugador.id %}"
+                                        <td><a onclick="return confirm('Si modificas tu alineación, pasará a ser un nuevo equipo y su popularidad se pondrá a 0.')" id="alBanquillo" href="{% url 'scout:remove_from_principals' jugador.id %}"
                                                class="btn btn-default"><i class="fa fa-external-link"></i> - Al
                                             banquillo</a></td>
                                     {% endif %}
