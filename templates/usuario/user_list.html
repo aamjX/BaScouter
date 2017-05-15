@@ -3,6 +3,7 @@
 {% load static %}
 {% load humanize %}
 
+
 {% block content %}
 
     <div class="container">
@@ -15,7 +16,7 @@
                             class="fa fa-mail-reply" aria-hidden="true"></i> - Volver <span
                             style="font-size: 15px;">|</span></a></div>
             </div>
-            <div class="col-md-10 text-center">
+            <div class="col-md-12 text-center">
                 <br><br><br>
                 <h3>Sin usuarios</h3>
                 <br><br><br>
@@ -23,106 +24,80 @@
             </div>
         {% else %}
             <div class="row">
-                <div class="col-md-2 text-center" style="padding-top: 18px;"><a
-                        id="returnButton" href="{% url 'scout:principal' %}"
-                        class="btn btn-default"><i
-                        class="fa fa-mail-reply" aria-hidden="true"></i> - Volver <span
-                        style="font-size: 15px;"></span></a></div>
+            <div class="col-md-2 text-center" style="padding-top: 18px;"><a
+                    id="returnButton" href="{% url 'scout:principal' %}"
+                    class="btn btn-default"><i
+                    class="fa fa-mail-reply" aria-hidden="true"></i> - Volver <span
+                    style="font-size: 15px;"></span></a></div>
 
-                <div class="col-md-10" style="padding-top: 18px;">
-                    <form action="#" method="get">
-                        <div class="input-group">
+            <div class="col-md-10" style="padding-top: 18px;">
+                <form action="#" method="get">
+                    <div class="input-group">
                             <span style="background-color: #E3E3E3; color: #455D7A;" class="input-group-addon"
                                   id="basic-addon1"><i
                                     class="glyphicon glyphicon-search"></i></span>
-                            <input class="form-control" id="system-search" name="q" placeholder="Buscar..."
-                                   aria-describedby="basic-addon1" required>
-                        </div>
-                        <br>
-                    </form>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <div class="box-border" style="padding:10px">
-                            <table id="gestion-equipo" class="table table-hover table-list-search">
-                                <thead>
-                                <tr>
-                                    <td>Avatar</td>
-                                    <td>Nombre de usuario</td>
-                                    <td>Nombre</td>
-                                    <td>Apellidos</td>
-                                    <td>Sexo</td>
-                                    <td>Localización</td>
-                                    <td>Popular</td>
-                                    <td>¿Seguir?</td>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for usuario in usuarios %}
-                                    <tr>
-                                        <td><img src="{{ usuario.profile.image }}"
-                                                 style="width:40px; height: auto; border-radius: 4px">
-                                        </td>
-                                        <td><p style="line-height:30px"><a
-                                                href="{% url 'usuario:perfil' usuario.id %}">{{ usuario.username }}</a>
-                                        </p></td>
-                                        <td><p style="line-height:30px">{{ usuario.first_name }}</p></td>
-                                        <td><p style="line-height:30px">{{ usuario.last_name }}</p></td>
-                                        <td><p style="line-height:30px">{{ usuario.profile.sex }}</p></td>
-                                        <td><p style="line-height:30px">{{ usuario.profile.location }}</p></td>
-                                        <td>
-                                            <p style="line-height:30px"><i class="fa fa-heart" aria-hidden="true"
-                                                                           style="color: #F95959; font-size: 13px"></i> {{ usuario.alineacion.numMeGustaTotales }}
-                                            </p>
-                                        </td>
-                                        <td><p style="line-height:30px">
-                                            {% if usuario.id != request.user.id %}
-                                                {% if usuario in request.user.profile.following.all %}
-                                                    <a id="removePlayer" class="btn btn-default"
-                                                       href="{% url 'usuario:unfollow' usuario.id %}"><i
-                                                            class="fa fa-user-times"></i> Dejar de
-                                                        seguir</a>{% else %}<a id="addPlayer" class="btn btn-default"
-                                                                               href="{% url 'usuario:follow' usuario.id %}"><i
-                                                        class="fa fa-user-plus"></i> Seguir</a>
-                                                {% endif %}
-                                                </p></td>
-                                                </tr>
-                                            {% endif %}
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                        <input class="form-control" id="system-search" name="q" placeholder="Buscar..."
+                               aria-describedby="basic-addon1" required>
                     </div>
-                    <ul class="pager">
-                        <li>
-                            {% if page_obj.has_previous %}
-                                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                            {% endif %}
-                        </li>
-                        <li>
-                            {% if page_obj.has_next %}
-                                <a href="?page={{ page_obj.next_page_number }}">Next</a>
-                            {% endif %}
-                        </li>
-                    </ul>
+                    <br>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="box-border" style="padding:10px">
+                        <table id="gestion-equipo" class="table table-hover table-list-search">
+                            <thead>
+                            <tr>
+                                <td>Avatar</td>
+                                <td>Nombre de usuario</td>
+                                <td>Nombre</td>
+                                <td>Apellidos</td>
+                                <td>Sexo</td>
+                                <td>Localización</td>
+                                <td>Popular</td>
+                                <td>¿Seguir?</td>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for usuario in usuarios %}
+                                <tr>
+                                    <td><img src="{{ usuario.profile.image }}"
+                                             style="width:40px; height: auto; border-radius: 4px">
+                                    </td>
+                                    <td><p style="line-height:30px"><a
+                                            href="{% url 'usuario:profile' usuario.id %}">{{ usuario.username }}</a>
+                                    </p></td>
+                                    <td><p style="line-height:30px">{{ usuario.first_name }}</p></td>
+                                    <td><p style="line-height:30px">{{ usuario.last_name }}</p></td>
+                                    <td><p style="line-height:30px">{{ usuario.profile.sex }}</p></td>
+                                    <td><p style="line-height:30px">{{ usuario.profile.location }}</p></td>
+                                    <td>
+                                        <p style="line-height:30px"><i class="fa fa-heart" aria-hidden="true"
+                                                                       style="color: #F95959; font-size: 13px"></i> {{ usuario.squad.likeCount }}
+                                        </p>
+                                    </td>
+                                    <td><p style="line-height:30px">
+                                        {% if usuario.id != request.user.id %}
+                                            {% if usuario in request.user.profile.following.all %}
+                                                <a id="removePlayer" class="btn btn-default"
+                                                   href="{% url 'usuario:unfollow' usuario.id %}"><i
+                                                        class="fa fa-user-times"></i> Dejar de
+                                                    seguir</a>{% else %}<a id="addPlayer" class="btn btn-default"
+                                                                           href="{% url 'usuario:follow' usuario.id %}"><i
+                                                    class="fa fa-user-plus"></i> Seguir</a>
+                                            {% endif %}
+                                            </p></td>
+                                            </tr>
+                                        {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <ul class="pager">
-                    <li>
-                        {% if page_obj.has_previous %}
-                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                        {% endif %}
-                    </li>
-                    <li>
-                        {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
-                        {% endif %}
-                    </li>
-                </ul>
+
             </div>
         {% endif %}
+        </div>
     </div>
-
-
-
 {% endblock %}

@@ -15,10 +15,10 @@
                                     src="{{ player.image }}"
                                     style="border-radius: 10px; width: 100px; height: auto; background-size: 100% auto; border: 2px solid #E3E3E3;">
                                 <hr>
-                                <a href="{% url 'scout:team_list' player.team.championship.id %}"><img src="{{ player.team.championship.logo }}"
-                                     style="width: 30px; height: auto">
+                                <img src="{{ player.team.championship.logo }}"
+                                     style="width: 30px; height: auto"> <a href="{% url 'scout:team_list' player.team.championship.id %}">
                                 <strong>{{ player.team.championship.name }}</strong></a>
-                                | <a href="{% url 'scout:player_list' player.team.id %}"><img src="{{ player.team.badge }}" style="width: 26px; height: auto">
+                                | <img src="{{ player.team.badge }}" style="width: 26px; height: auto"> <a href="{% url 'scout:player_list' player.team.id %}">
                                 <strong>{{ player.team.name }}</strong></a>
                             </div>
                             <div class="col-md-4" style="font-size: 14px"><p><strong><i
@@ -79,18 +79,19 @@
                         <div class="col-md-12"><hr></div>
                             <div class="col-md-4 text-center">
 
-                                <p style="color: #455D7A"><strong>Popularidad:</strong> {{ player.likes }} <i class="fa fa-heart" aria-hidden="true"
-                                                                             style="color: #F95959;"></i></p>
+                                <p style="color: #455D7A"><strong>Popularidad:</strong> {% if player.likes is None %} 0 <i class="fa fa-heart" aria-hidden="true"
+                                                                             style="color: #F95959;"></i></p>{% else %}{{ player.likes }} <i class="fa fa-heart" aria-hidden="true"
+                                                                             style="color: #F95959;"></i></p>{% endif %}
                             </div>
                             <div class="col-md-8 text-center">
                                 <a href="{% url 'scout:player_list' player.team.id %}" class="btn btn-default" style="color:#455D7A"><i
                                         class="fa fa-mail-reply" aria-hidden="true"></i> -volver</a>
                                 {% if player.id in players_id %}
-                                    <a id="removePlayer" href="{% url 'scout:removeJugador' player.id %}"
+                                    <a id="removePlayer" href="{% url 'scout:remove_player_from_squad' player.id %}"
                                        class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
 
                                 {% else %}
-                                    <a id="addPlayer" href="{% url 'scout:addJugador' player.id %}"
+                                    <a id="addPlayer" href="{% url 'scout:add_player_to_squad' player.id %}"
                                        class="btn btn-default"><i class="fa fa-plus-square"></i> - Añadir</a>
 
                                 {% endif %}

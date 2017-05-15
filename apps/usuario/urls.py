@@ -1,13 +1,13 @@
 from django.conf.urls import url
 from django.contrib.auth.views import logout, password_change, password_change_done
-from apps.usuario.views import SignUp, perfil, editarBusqueda, ProfileVIew, comment_create, comment_delete, \
+from apps.usuario.views import SignUp, profile, editarBusqueda, ProfileView, comment_create, comment_delete, \
     comment_edit, UserList, follow_user, unfollow_user, following_list, followers_list
 
 urlpatterns = [
     url(r'^registrar', SignUp.as_view(), name="registrar"),
-    url(r'^perfil/(?P<usuario_id>\d+)/$', perfil, name="perfil"),
-    url(r'^perfil/editar/$', ProfileVIew.as_view(), name="editarPerfil"),
-    url(r'^listar/$', UserList, name="list"),
+    url(r'^profile/(?P<user_id>\d+)/$', profile, name="profile"),
+    url(r'^profile/edit/$', ProfileView.as_view(), name="user_profile_edit"),
+    url(r'^user_list/$', UserList, name="user_list"),
     url(r'^siguiendo/listar/(?P<usuario_id>\d+)$', following_list, name="following"),
     url(r'^seguidores/listar/(?P<usuario_id>\d+)$', followers_list, name="followers"),
     url(r'^perfil/editarBusqueda/$', editarBusqueda, name="editarBusqueda"),

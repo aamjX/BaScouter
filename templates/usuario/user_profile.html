@@ -79,11 +79,12 @@
 
                                 <div class="col-md-12 text-center">
                                     <hr style="border: 1px solid #E3E3E3;">
-                                    <a id="addPlayer" addPlayer href="{% url 'usuario:editarPerfil' %}"
+                                    <a id="addPlayer" addPlayer href="{% url 'usuario:user_profile_edit' %}"
                                        class="btn btn-primary" style="width: 162px"><i
                                             class="fa fa-refresh fa-spin"></i> Actualizar mi
                                         perfil</a>
-                                    <a id="alBanquillo" href="{% url 'usuario:password_change' %}" class="btn btn-default" style="width: 162px"><i
+                                    <a id="alBanquillo" href="{% url 'usuario:password_change' %}"
+                                       class="btn btn-default" style="width: 162px"><i
                                             class="fa fa-shield"></i> Cambiar contraseña</a>
                                 </div>
                             </div>
@@ -126,58 +127,66 @@
                             <tbody style="font-size: 12px;">
 
                             {% for jugador in porteros %}
-                                {% if jugador.id in titulares_id %}
+                                {% if jugador.id in principals_id %}
                                     <tr class="text-center">
-                                        <td><img src="{{ jugador.avatar }}"
+                                        <td><img src="{{ jugador.image }}"
                                                  style="width:24px; height: auto; border-radius: 4px"></td>
-                                        <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.alias }}</a></td>
+                                        <td><a href="{% url 'scout:player_profile' jugador.id %}"><p
+                                                style="line-height:25px"></p>{{ jugador.name }}</a></td>
                                         <td><span class="pos-1">PT</span></td>
-                                        <td><p style="line-height:25px">{{ jugador.posicion }}</p></td>
-                                        <td><p style="line-height:25px">{{ jugador.valor|intcomma }} €</p></td>
-                                        <td><a href="{% url 'scout:equipo' jugador.equipo.id %}"><img src="{{ jugador.equipo.escudo }}"
-                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                        <td><p style="line-height:25px">{{ jugador.position }}</p></td>
+                                        <td><p style="line-height:25px">{{ jugador.value|intcomma }} €</p></td>
+                                        <td><a href="{% url 'scout:equipo' jugador.team.id %}"><img
+                                                src="{{ jugador.team.badge }}"
+                                                style="width:24px; height: auto; border-radius: 4px"></a></td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}
                             {% for jugador in defensas %}
-                                {% if jugador.id in titulares_id %}
+                                {% if jugador.id in principals_id %}
                                     <tr class="text-center">
-                                        <td><img src="{{ jugador.avatar }}"
+                                        <td><img src="{{ jugador.image }}"
                                                  style="width:24px; height: auto; border-radius: 4px"></td>
-                                        <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.alias }}</a></td>
+                                        <td><a href="{% url 'scout:player_profile' jugador.id %}"><p
+                                                style="line-height:25px"></p>{{ jugador.name }}</a></td>
                                         <td><span class="pos-2">DF</span></td>
-                                        <td><p style="line-height:25px">{{ jugador.posicion }}</p></td>
-                                        <td><p style="line-height:25px">{{ jugador.valor|intcomma }} €</p></td>
-                                        <td><a href="{% url 'scout:equipo' jugador.equipo.id %}"><img src="{{ jugador.equipo.escudo }}"
-                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                        <td><p style="line-height:25px">{{ jugador.position }}</p></td>
+                                        <td><p style="line-height:25px">{{ jugador.value|intcomma }} €</p></td>
+                                        <td><a href="{% url 'scout:equipo' jugador.team.id %}"><img
+                                                src="{{ jugador.team.badge }}"
+                                                style="width:24px; height: auto; border-radius: 4px"></a></td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}
                             {% for jugador in medios %}
-                                {% if jugador.id in titulares_id %}
+                                {% if jugador.id in principals_id %}
                                     <tr class="text-center">
-                                        <td><img src="{{ jugador.avatar }}"
+                                        <td><img src="{{ jugador.image }}"
                                                  style="width:24px; height: auto; border-radius: 4px"></td>
-                                        <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.alias }}</a></td>
+                                        <td><a href="{% url 'scout:player_profile' jugador.id %}"><p
+                                                style="line-height:25px"></p>{{ jugador.name }}</a></td>
                                         <td><span class="pos-3">MC</span></td>
-                                        <td><p style="line-height:25px">{{ jugador.posicion }}</p></td>
-                                        <td><p style="line-height:25px">{{ jugador.valor|intcomma }} €</p></td>
-                                        <td><a href="{% url 'scout:equipo' jugador.equipo.id %}"><img src="{{ jugador.equipo.escudo }}"
-                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                        <td><p style="line-height:25px">{{ jugador.position }}</p></td>
+                                        <td><p style="line-height:25px">{{ jugador.value|intcomma }} €</p></td>
+                                        <td><a href="{% url 'scout:equipo' jugador.team.id %}"><img
+                                                src="{{ jugador.team.escudo }}"
+                                                style="width:24px; height: auto; border-radius: 4px"></a></td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}
                             {% for jugador in delanteros %}
-                                {% if jugador.id in titulares_id %}
+                                {% if jugador.id in principals_id %}
                                     <tr class="text-center">
-                                        <td><img src="{{ jugador.avatar }}"
+                                        <td><img src="{{ jugador.image }}"
                                                  style="width:24px; height: auto; border-radius: 4px"></td>
-                                        <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.alias }}</a></td>
+                                        <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p
+                                                style="line-height:25px"></p>{{ jugador.name }}</a></td>
                                         <td><span class="pos-4">DL</span></td>
-                                        <td><p style="line-height:25px">{{ jugador.posicion }}</p></td>
-                                        <td><p style="line-height:25px">{{ jugador.valor|intcomma }} €</p></td>
-                                        <td><a href="{% url 'scout:equipo' jugador.equipo.id %}"><img src="{{ jugador.equipo.escudo }}"
-                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                        <td><p style="line-height:25px">{{ jugador.position }}</p></td>
+                                        <td><p style="line-height:25px">{{ jugador.value|intcomma }} €</p></td>
+                                        <td><a href="{% url 'scout:equipo' jugador.team.id %}"><img
+                                                src="{{ jugador.team.badge }}"
+                                                style="width:24px; height: auto; border-radius: 4px"></a></td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}
@@ -190,16 +199,18 @@
                 <div class="col-md-5 text-justify" style="font-size: 15px;">
                     <div class="box"
                          style="background-color:#ffffff; padding:20px; box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2)">
-                        <h2 class="text-center" style="color:#233142"><i class="fa fa-soccer-ball-o"></i> {{ user.alineacion.titulo }}</h2>
+                        <h2 class="text-center" style="color:#233142"><i
+                                class="fa fa-soccer-ball-o"></i> {{ user.squad.title }}</h2>
                         <hr>
-                        {{ user.alineacion.descripcion }}
+                        {{ user.squad.description }}
                         <hr>
-                        <p><strong>Última actualización: </strong>{{ user.alineacion.ultimaActualizacion }}</p>
-                        <p><strong>Edad media: </strong>{{ user.alineacion.edadMedia }} años</p>
-                        <p><strong>Valor aprox: </strong>{{ user.alineacion.valor|intcomma }} €</p>
+                        <p><strong>Última actualización: </strong>{{ user.squad.lastUpdate }}</p>
+                        <p><strong>Edad media: </strong>{{ user.squad.averageAge }} años</p>
+                        <p><strong>Valor aprox: </strong>{{ user.squad.value|intcomma }} €</p>
                         <p><strong><i class="fa fa-heart" aria-hidden="true" style="color: #F95959;"></i> recibidos:
-                        </strong>{{ user.alineacion.megusta_set.all|length }}</p><br>
-                        <p class="text-center"><a id ="showButton" style="color:#455D7A" href="{% url 'scout:listar_alineaciones' %}"
+                        </strong>{{ user.squad.likeCount_set.all|length }}</p><br>
+                        <p class="text-center"><a id="showButton" style="color:#455D7A"
+                                                  href="{% url 'scout:squad_list' %}"
                                                   class="btn btn-default"><i
                                 class="fa fa-soccer-ball-o"></i> Explorar todas</a></p>
                     </div>
@@ -210,66 +221,73 @@
     </section>
 
     <section class="comentarios">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12" style="color:#455D7A">
-                <h2 class="page-header text-center" style="color:#233142"><i class="fa fa-comments-o"
-                                                                             style="color:rgba(47, 180, 139, 0.86);"></i>
-                    <a name="comentarios"></a>Comentarios</h2>
-                <section class="comment-list">
-                    {% for comment in comments %}
-                        <article class="row">
-                            <div class="col-md-2 col-sm-2 hidden-xs">
-                                <figure class="thumbnail">
-                                    <img class="img-responsive"
-                                         src="{{ comment.autor.profile.image }}"/>
-                                    <figcaption class="text-center"><a name="comment{{ comment.id }}"
-                                                                       style="color:#233142"
-                                                                       href="{% url 'usuario:perfil' comment.user.id %}">{{ comment.autor.username }}</a>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <div class="col-md-10 col-sm-10">
-                                <div class="panel panel-default arrow left" style="background-color: #ffff;">
-                                    <div class="panel-body">
-                                        <header class="text-left">
-                                            <div class="comment-user"><i class="fa fa-user"></i> <a
-                                                    style="color:#233142"
-                                                    href="{% url 'usuario:perfil' comment.user.id %}">{{ comment.autor.username }}</a>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12" style="color:#455D7A">
+                    <h2 class="page-header text-center" style="color:#233142"><i class="fa fa-comments-o"
+                                                                                 style="color:rgba(47, 180, 139, 0.86);"></i>
+                        <a name="comentarios"></a>Comentarios</h2></div>
+                <div class="col-md-12">
+                    <section class="comment-list">
+                        {% for comment in comments %}
+                            <article class="row">
+                                <div class="col-md-2 col-sm-2 hidden-xs">
+                                    <figure class="thumbnail">
+                                        <img class="img-responsive"
+                                             src="{{ comment.author.profile.image }}"/>
+                                        <figcaption class="text-center"><a name="comment{{ comment.id }}"
+                                                                           style="color:#233142"
+                                                                           href="{% url 'usuario:profile' comment.user.id %}">{{ comment.author.username }}</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                                <div class="col-md-10 col-sm-10">
+                                    <div class="panel panel-default arrow left" style="background-color: #ffff;">
+                                        <div class="panel-body">
+                                            <header class="text-left">
+                                                <div class="comment-user"><i class="fa fa-user"></i> <a
+                                                        style="color:#233142"
+                                                        href="{% url 'usuario:profile' comment.user.id %}">{{ comment.author.username }}</a>
+                                                </div>
+                                                <time class="comment-date" style="color:#233142"><i
+                                                        class="fa fa-clock-o"></i> {{ comment.created_date }}
+                                                </time>
+                                            </header>
+                                            <div class="comment-post">
+                                                <p style="font-size: 16px">
+                                                    {{ comment.text }}
+                                                </p>
                                             </div>
-                                            <time class="comment-date" style="color:#233142"><i
-                                                    class="fa fa-clock-o"></i> {{ comment.created_date }}
-                                            </time>
-                                        </header>
-                                        <div class="comment-post">
-                                            <p style="font-size: 16px">
-                                                {{ comment.text }}
-                                            </p>
-                                        </div>
 
-                                        <p class="text-right">
-                                            {% if comment.user.id == request.user.id or comment.autor.id == request.user.id %}
-                                                <a style="width: 80px" id="volver"
-                                                   href="{% url 'usuario:comment_delete' comment.id %}"
-                                                   class="btn btn-default btn-sm">
-                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    Eliminar</a>{% endif %}
-                                            {% if comment.autor.id == request.user.id %}
-                                                <a style="color:#455D7A"
-                                                   href="{% url 'usuario:comment_edit' comment.id %}"
-                                                   class="btn btn-default btn-sm"><i class="fa fa-refresh fa-spin"></i>
-                                                    Editar</a>{% endif %}</p>
+                                            <p class="text-right">
+                                                {% if comment.user.id == request.user.id or comment.author.id == request.user.id %}
+                                                    <a onclick="return confirm('¿Seguro que desea realizar esta operación?')" style="width: 80px" id="volver"
+                                                       href="{% url 'usuario:comment_delete' comment.id %}"
+                                                       class="btn btn-default btn-sm">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        Eliminar</a>{% endif %}
+                                                {% if comment.author.id == request.user.id %}
+                                                    <a style="color:#455D7A"
+                                                       href="{% url 'usuario:comment_edit' comment.id %}"
+                                                       class="btn btn-default btn-sm"><i
+                                                            class="fa fa-refresh fa-spin"></i>
+                                                        Editar</a>{% endif %}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </article>
-                    {% endfor %}
-                </section>
+                            </article>
+                        {% endfor %}
+                    </section>
+                </div>
+
+                <div class="col-md-12 text-center"><a id="addPlayer" class="btn btn-default"
+                                                      href="{% url 'usuario:comment_create' user.id %}"><i
+                        class="fa fa-comment" aria-hidden="true"></i> Añadir comentario</a><br><br></div>
+
+
             </div>
-            <div class="col-md-12 text-center"><a id="addPlayer" class="btn btn-default"
-                                                  href="{% url 'usuario:comment_create' user.id %}"><i
-                    class="fa fa-comment" aria-hidden="true"></i> Añadir comentario</a><br><br></div>
         </div>
-    </div>
+    </section>
+
 {% endblock %}
 

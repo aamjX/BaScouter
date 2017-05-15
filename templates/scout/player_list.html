@@ -92,11 +92,11 @@
                                            class="btn btn-default"><i
                                             class="fa fa-eye" aria-hidden="true"></i> - Explorar</a><s></s></td>
                                     {% if player.id in players_id %}
-                                        <td><a id="removePlayer" href="{% url 'scout:removeJugador' player.id %}"
+                                        <td><a id="removePlayer" href="{% url 'scout:remove_player_from_squad' player.id %}"
                                                class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
                                         </td>
                                     {% else %}
-                                        <td><a id="addPlayer" href="{% url 'scout:addJugador' player.id %}"
+                                        <td><a id="addPlayer" href="{% url 'scout:add_player_to_squad' player.id %}"
                                                class="btn btn-default"><i class="fa fa-plus-square"></i> - Añadir</a>
                                         </td>
                                     {% endif %}

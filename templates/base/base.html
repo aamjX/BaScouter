@@ -165,21 +165,21 @@
                                         class="fa fa-user"></i> {{ request.user.get_username }} <b
                                         class="caret"></b></a>
                                 <ul class="dropdown-menu" style="background-color: #fff">
-                                    <li><a href="{% url 'usuario:perfil' request.user.id %}"><i
+                                    <li><a href="{% url 'usuario:profile' request.user.id %}"><i
                                             class="fa fa-trophy"></i> Mi perfil</a></li>
-                                    <li><a href="{% url 'usuario:list' %}"><i class="fa fa-eye"></i> Explorar
+                                    <li><a href="{% url 'usuario:user_list' %}"><i class="fa fa-eye"></i> Explorar
                                         usuarios</a></li>
                                     <li><a href="{% url 'scout:busqueda_avanzada' %}"><i class="fa fa-cogs"></i>
                                         Búsqueda avanzada</a></li>
-                                    <li><a href="{% url 'scout:gestionar_alineacion' %}"><i class="fa fa-wrench"></i>
+                                    <li><a href="{% url 'scout:manage_squad' %}"><i class="fa fa-wrench"></i>
                                         Gestionar mi plantilla</a></li>
-                                    <li><a href="{% url 'scout:listar_alineaciones' %}"><i
+                                    <li><a href="{% url 'scout:squad_list' %}"><i
                                             class="fa fa-soccer-ball-o"></i> Explorar plantillas</a></li>
                                     <li><a href="{% url 'usuario:logout' %}"><i class="fa fa-sign-out"></i> Cerrar
                                         sesión</a></li>
                                 </ul>
                             </li>
-                            <li id="img-perfil"><a href="{% url 'usuario:perfil' request.user.id %}">
+                            <li id="img-perfil"><a href="{% url 'usuario:profile' request.user.id %}">
                                 {% if '' == request.user.profile.image %}<img
                                         src="{% static 'img/perfil.png' %}">{% else %}<img
                                         src="{{ request.user.profile.image }}">{% endif %}</a></li>

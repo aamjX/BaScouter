@@ -7,15 +7,23 @@ from django.contrib.auth.models import User
 import time
 import json
 
+'''----------------------------------------------------------------------------------------------------------'''
 
 '''Vista principal una vez autenticado'''
+
+'''----------------------------------------------------------------------------------------------------------'''
+
 
 def principal_view(request):
     championships = Championship.objects.all()
     return render(request, 'scout/principal.html', {'championships': championships})
 
 
+'''----------------------------------------------------------------------------------------------------------'''
+
 '''Listar entidades'''
+
+'''----------------------------------------------------------------------------------------------------------'''
 
 def team_list(request, championship_id):
     championship = Championship.objects.get(pk=championship_id)
@@ -34,6 +42,7 @@ def team_list(request, championship_id):
                   {'teams': teams, 'championship': championship, 'teamsCount': teamsCount, 'playerCount': playerCount,
                    'value': value})
 
+
 def player_list(request, team_id):
     players_id = []
     team = Team.objects.get(pk=team_id)
@@ -43,40 +52,80 @@ def player_list(request, team_id):
     return render(request, 'scout/player_list.html',
                   {'players': team.player_set.all(), 'team': team, 'players_id': players_id})
 
+def squad_list(request):
+    squads = Squad.objects.all()
+    sorted_squads = []
+    sorted_squad_single = []
+    sqd = []
+    for a in squads:
+        principals = ordenarJugadores(a.principals.all())
+        for t in principals['porteros']:
+            sorted_squad_single.append(t)
+        for t in principals['defensas']:
+            sorted_squad_single.append(t)
+        for t in principals['medios']:
+            sorted_squad_single.append(t)
+        for t in principals['delanteros']:
+            sorted_squad_single.append(t)
+
+        sorted_squads.append(sorted_squad_single)
+        sqd.append(a)
+        sorted_squad_single = []
+        list_all = zip(sqd, sorted_squads)
+        squads_id = favAlineaciones_ID_ByUser(request.user)
+
+    return render(request, 'scout/squad_list.html',
+                  {'squads': list_all, 'squads_id': squads_id})
+
+'''----------------------------------------------------------------------------------------------------------'''
 
 '''Mostrar entidades'''
 
+'''----------------------------------------------------------------------------------------------------------'''
+
 def player_profile(request, player_id):
-    player = Player.objects.get(id=player_id)
-    players_id = []
 
-    squad = Squad.objects.get(user=request.user)
-    for player in squad.players.all():
-        players_id.append(player.id)
+    if Player.objects.filter(id=player_id).exists():
 
-    return render(request, 'scout/player_profile.html', {'player': player, 'players_id': players_id})
+        player = Player.objects.get(id=player_id)
+        players_id = []
+
+        squad = Squad.objects.get(user=request.user)
+
+        for player in squad.players.all():
+            players_id.append(player.id)
+
+        return render(request, 'scout/player_profile.html', {'player': player, 'players_id': players_id})
+
+    else:
+
+        return render(request, 'error/error_1.html')
+
+def add_player_to_squad(request, player_id):
+    if Player.objects.filter(id=player_id).exists():
+        user = request.user
+        squad = Squad.objects.get(user=user)
+        player = Player.objects.get(id=player_id)
+        team = player.team
+        squad.players.add(player)
+        return render(request, 'scout/congratulations.html', {'team': team, 'player': player, 'isAdd': True})
+    else:
+        return render(request, 'error/error_1.html')
 
 
+def remove_player_from_squad(request, player_id):
+    if Player.objects.filter(id=player_id).exists():
+        user = request.user
+        squad = Squad.objects.get(user=user)
+        player = Player.objects.get(id=player_id)
+        team = player.team
+        squad.players.remove(player)
+        if player in squad.principals.all():
+            squad.titulares.remove(player)
+        return render(request, 'scout/congratulations.html', {'team': team, 'player': player, 'isAdd': False})
+    else:
+        return render(request, 'error/error_1.html')
 
-
-def add_jugador_alineacion(request, jugador_id):
-    user = request.user
-    alineacion = Squad.objects.get(user=user)
-    jugador = Team.objects.get(id=jugador_id)
-    equipo = jugador.equipo
-    alineacion.jugadores.add(jugador)
-    return render(request, 'scout/enhorabuena.html', {'equipo': equipo, 'jugador': jugador, 'isAdd': True})
-
-
-def remove_jugador_alineacion(request, jugador_id):
-    user = request.user
-    alineacion = Squad.objects.get(user=user)
-    jugador = Player.objects.get(id=jugador_id)
-    equipo = jugador.equipo
-    alineacion.jugadores.remove(jugador)
-    if jugador in alineacion.titulares.all():
-        alineacion.titulares.remove(jugador)
-    return render(request, 'scout/enhorabuena.html', {'equipo': equipo, 'jugador': jugador, 'isAdd': False})
 
 
 def hacer_titular(request, jugador_id):
@@ -110,71 +159,59 @@ def hacer_suplente(request, jugador_id):
     return redirect('scout:gestionar_alineacion')
 
 
-def gestionar_alineacion(request):
-    titulares_id = []
-    jugadores_id = []
-    valor_titulares = 0
-    edad_media = 0
+
+
+'''----------------------------------------------------------------------------------------------------------'''
+
+'''Funciones relacionadas con el manego de las alineaciones'''
+
+'''----------------------------------------------------------------------------------------------------------'''
+
+def manage_squad(request):
+    principals_id = []
+    players_id = []
+    principals_value = 0
+    average_age = 0
     user = request.user
-    alineacion = Squad.objects.get(user=user)
+    squad = Squad.objects.get(user=user)
 
-    jugadores_ordenados = ordenarJugadores(alineacion.jugadores.all())
-    for j in alineacion.jugadores.all():
-        jugadores_id.append(j.id)
+    sorted_players = ordenarJugadores(squad.players.all())
+    for j in squad.players.all():
+        players_id.append(j.id)
 
-    for t in alineacion.titulares.all():
-        valor_titulares = valor_titulares + t.valor
-        edad_media = edad_media + t.edad
-        titulares_id.append(t.id)
+    for t in squad.principals.all():
+        principals_value = principals_value + t.value
+        average_age = average_age + t.age
+        principals_id.append(t.id)
 
-    if len(alineacion.titulares.all()) != 0:
-        edad_media = edad_media / len(alineacion.titulares.all())
+    if len(squad.principals.all()) != 0:
+        average_age = average_age / len(squad.principals.all())
 
-    alineacion.valor = valor_titulares
-    alineacion.edadMedia = int(edad_media)
-    alineacion.save()
+    squad.value = principals_value
+    squad.averageAge = int(average_age)
+    squad.save()
 
-    return render(request, 'scout/gestionar_alineacion.html',
-                  {'alineacion': alineacion, 'porteros': jugadores_ordenados['porteros'],
-                   'defensas': jugadores_ordenados['defensas'], 'medios': jugadores_ordenados['medios'],
-                   'delanteros': jugadores_ordenados['delanteros'], 'jugadores_id': jugadores_id,
-                   'titulares_id': titulares_id, 'valor_titulres': valor_titulares, 'edad_media': int(edad_media)})
+    return render(request, 'scout/manage_squad.html',
+                  {'squad': squad, 'porteros': sorted_players['porteros'],
+                   'defensas': sorted_players['defensas'], 'medios': sorted_players['medios'],
+                   'delanteros': sorted_players['delanteros'], 'players_id': players_id,
+                   'principals_id': principals_id, 'principals_value': principals_value,
+                   'average_age': int(average_age)})
 
 
-def editar_alineacion(request):
-    alineacion = Squad.objects.get(user=request.user)
+def squad_edit(request):
+    squad = Squad.objects.get(user=request.user)
     if request.method == 'GET':
-        form = SquadForm(instance=alineacion)
+        form = SquadForm(instance=squad)
     else:
-        form = SquadForm(request.POST, instance=alineacion)
+        form = SquadForm(request.POST, instance=squad)
         if form.is_valid():
             form.save()
-        return redirect('scout:gestionar_alineacion')
+            return redirect('scout:manage_squad')
+        else:
+            return render(request, 'scout/squad_edit.html', {'form': form})
+
     return render(request, 'scout/squad_edit.html', {'form': form})
-
-
-def listar_alineaciones(request):
-    alineaciones = Squad.objects.all()
-    alineaciones_ordenadas = []
-    alineacion_ordenada = []
-    ali = []
-    for a in alineaciones:
-        titulares = ordenarJugadores(a.titulares.all())
-        for t in titulares['porteros']:
-            alineacion_ordenada.append(t)
-        for t in titulares['defensas']:
-            alineacion_ordenada.append(t)
-        for t in titulares['medios']:
-            alineacion_ordenada.append(t)
-        for t in titulares['delanteros']:
-            alineacion_ordenada.append(t)
-        alineaciones_ordenadas.append(alineacion_ordenada)
-        ali.append(a)
-        alineacion_ordenada = []
-        list_all = zip(ali, alineaciones_ordenadas)
-        alineaciones_id = favAlineaciones_ID_ByUser(request.user)
-    return render(request, 'scout/listar_alineaciones.html',
-                  {'alineaciones': list_all, 'alineaciones_id': alineaciones_id})
 
 
 def addMeGusta(request, alineacion_id):
@@ -209,7 +246,13 @@ def favAlineaciones_ID_ByUser(principal_user):
 
     return alinaciones_id
 
+
+'''----------------------------------------------------------------------------------------------------------'''
+
 '''Funciones relacionadas con el sistema de busqueda'''
+
+'''----------------------------------------------------------------------------------------------------------'''
+
 
 def busqueda_avanzada(request):
     if request.method == 'POST':
@@ -260,20 +303,20 @@ def busqueda_avanzada(request):
 
             if dorsal == None:
                 jugadores = Player.objects.filter(query_agente, query_proveedor, query_nacionalidad, query_posicion,
-                                                   query_contratoHasta, query_fichado, query_pie,
-                                                   team__championship__id=competicion,
-                                                   name__icontains=alias, fullName__icontains=nombreCompleto,
-                                                   height__range =(mayor_altura_de, menor_altura_de),
-                                                   birthDate__range=(mayor_de, menor_de),
-                                                   value__range=(mayor_valor_de, menor_valor_de))
+                                                  query_contratoHasta, query_fichado, query_pie,
+                                                  team__championship__id=competicion,
+                                                  name__icontains=alias, fullName__icontains=nombreCompleto,
+                                                  height__range=(mayor_altura_de, menor_altura_de),
+                                                  birthDate__range=(mayor_de, menor_de),
+                                                  value__range=(mayor_valor_de, menor_valor_de))
             else:
                 jugadores = Player.objects.filter(query_agente, query_proveedor, query_nacionalidad, query_posicion,
-                                                   query_contratoHasta, query_fichado, query_pie,
-                                                   team__championship__id=competicion,
-                                                   name__icontains=alias, fullName__icontains=nombreCompleto,
-                                                   number=dorsal, height__range=(mayor_altura_de, menor_altura_de),
-                                                   birthDate__range=(mayor_de, menor_de),
-                                                   value__range=(mayor_valor_de, menor_valor_de))
+                                                  query_contratoHasta, query_fichado, query_pie,
+                                                  team__championship__id=competicion,
+                                                  name__icontains=alias, fullName__icontains=nombreCompleto,
+                                                  number=dorsal, height__range=(mayor_altura_de, menor_altura_de),
+                                                  birthDate__range=(mayor_de, menor_de),
+                                                  value__range=(mayor_valor_de, menor_valor_de))
 
             if utilizarRating:
                 jugadores = ratingCalculte(jugadores, request.user, temporada)
@@ -309,7 +352,8 @@ def autocomplete_search(request):
         for usuario in usuarios:
             datos_json = {}
             datos_json['id'] = usuario.id
-            datos_json['label'] = usuario.username + ' | <i class ="fa fa-heart" aria-hidden="true" style = "color: #F95959; font-size: 12px"></i> ' + str(
+            datos_json[
+                'label'] = usuario.username + ' | <i class ="fa fa-heart" aria-hidden="true" style = "color: #F95959; font-size: 12px"></i> ' + str(
                 usuario.squad.likeCount)
             datos_json['img'] = usuario.profile.image
             datos_json['value'] = usuario.username
@@ -340,24 +384,29 @@ def search(request):
 
     return redirect('scout:principal')
 
+
+'''----------------------------------------------------------------------------------------------------------'''
+
 '''Funciones auxiliares'''
 
+'''----------------------------------------------------------------------------------------------------------'''
 
-def ordenarJugadores(jugadores):
+
+def ordenarJugadores(players):
     porteros = []
     defensas = []
     medios = []
     delanteros = []
 
-    for jugador in jugadores:
-        if 'Portero' in jugador.posicion:
-            porteros.append(jugador)
-        elif 'Defensa' in jugador.posicion:
-            defensas.append(jugador)
-        elif 'Medio' in jugador.posicion:
-            medios.append(jugador)
-        elif 'Delantero' in jugador.posicion:
-            delanteros.append(jugador)
+    for player in players:
+        if 'Portero' in player.position:
+            porteros.append(player)
+        elif 'Defensa' in player.position:
+            defensas.append(player)
+        elif 'Medio' in player.position:
+            medios.append(player)
+        elif 'Delantero' in player.position:
+            delanteros.append(player)
 
     result = {'porteros': porteros, 'defensas': defensas, 'medios': medios, 'delanteros': delanteros}
 

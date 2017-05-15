@@ -8,10 +8,26 @@
 {% block content %}
     <div class="container">
         <div class="row" style="color:#455D7A">
-            <div class="col-md-12 text-center"><h2><i class="fa fa-refresh"></i> Actualiza tu perfil<hr></h2>
+            <div class="col-md-12 text-center">
+                <h2><i class="fa fa-refresh"></i> Actualiza tu perfil
+                    <hr>
+                </h2>
 
             </div>
             <div class="row">
+                {% if user_form.errors or profile_form.errors %}
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="alert alert-danger" role="alert">
+                            {{ profile_form.errors }}
+                            {{ user_form.errors }}
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                {% endif %}
+            </div>
+            <div class="row">
+
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <div class="row">
@@ -91,7 +107,7 @@
                             </div>
                             <div class="colmd-12 text-center">
                                 <a id="volver" style="width: 120px" class="btn btn-default"
-                                   href="{% url 'usuario:perfil' usuario_id %}"><i class="fa fa-reply"></i> Volver</a>
+                                   href="{% url 'usuario:profile' usuario_id %}"><i class="fa fa-reply"></i> Volver</a>
                                 <button class="btn btn-primary" style="width: 120px" type="submit"><i
                                         class="fa fa-refresh"></i> Actualizar
                                 </button>

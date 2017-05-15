@@ -9,14 +9,24 @@
                 <h2><i class="fa fa-keyboard-o"></i> Personaliza tu equipo</h2>
                 <hr>
             </div>
+            {% if form.errors %}
+                <div class="col-md-12">
+                    <div class="alert alert-danger" role="alert">
+                        {{ form.errors }}
+                    </div>
+                </div>
+            {% endif %}
             <div class="col-md-12" style="color:#233142">
                 <form id="form" method="post" action="">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <p class="text-center"><a id="volver" style="width: 120px" class="btn btn-default"
-                          href="{% url 'scout:gestionar_alineacion' %}"><i class="fa fa-reply"></i> Volver</a>
-                        <button class="btn btn-primary" style="width: 120px" type="submit"><i class="fa fa-keyboard-o"></i> Guardar
-                        </button></p>
+                                              href="{% url 'scout:manage_squad' %}"><i class="fa fa-reply"></i>
+                        Volver</a>
+                        <button class="btn btn-primary" style="width: 120px" type="submit"><i
+                                class="fa fa-keyboard-o"></i> Guardar
+                        </button>
+                    </p>
 
                 </form>
                 <br><br><br>
