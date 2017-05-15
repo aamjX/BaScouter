@@ -1,0 +1,101 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% for alineacion, titulares in alineaciones %}
+                <a name="alineacion{{ alineacion.id }}"></a>
+                {% if titulares|length == 11 %}
+                    <div class="col-md-4">
+                        <div class="box" style="box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2)">
+                            <div class="row">
+                                <div class="col-md-12" style="font-size: 12px; color: #455D7A">
+                                    &nbsp;&nbsp;{% if alineacion.id not in alineaciones_id %}
+                                    <a href="{% url 'scout:addMeGusta' alineacion.id %}"><i
+                                            class="fa fa-heart-o"
+                                            aria-hidden="true"></i></a>{% else %}
+                                    <a style="color: #F95959;"
+                                       href="{% url 'scout:removeMeGusta' alineacion.id %}"><i
+                                            class="fa fa-heart"
+                                            aria-hidden="true"></i></a>{% endif %} {{ alineacion.megusta_set.all|length }}
+                                    | <i class="fa fa-user" aria-hidden="true"></i>:
+                                    <a href="{% url 'usuario:perfil' alineacion.user.id %}">{{ alineacion.user.username }}</a> |
+                                    <a class="twitter-share-button"
+                                       href="https://twitter.com/intent/tweet?text=Estoy%20utilizando%20BaScouter%20y...">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <table id="gestion-equipo" class="table table-hover table-list-search">
+                                <thead>
+                                <tr>
+                                    <td colspan="2" style="font-size: 12px"><strong>{{ alineacion.titulo }}</strong>
+                                    </td>
+                                    <td class="text-center" colspan="1" style="font-size: 12px">
+                                        <strong>Posición</strong></td>
+                                    <td class="text-center" style="font-size: 12px"><strong>Club</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody style="font-size: 12px;">
+                                {% for jugador in titulares %}
+                                    {% if 'Portero' in jugador.posicion %}
+                                        <tr class="text-center">
+                                            <td><img src="{{ jugador.avatar }}"
+                                                     style="width:24px; height: auto; border-radius: 4px"></td>
+                                            <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.alias }}</a></td>
+                                            <td><span class="pos-1">PT</span></td>
+                                            <td><a href="{% url 'scout:equipo' jugador.equipo.id %}"><img src="{{ jugador.equipo.escudo }}"
+                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                        </tr>
+                                    {% elif 'Defensa' in jugador.posicion %}
+                                        <tr class="text-center">
+                                            <td><img src="{{ jugador.avatar }}"
+                                                     style="width:24px; height: auto; border-radius: 4px"></td>
+                                            <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.alias }}</a></td>
+                                            <td><span class="pos-2">DF</span></td>
+                                            <td><a href="{% url 'scout:equipo' jugador.equipo.id %}"><img src="{{ jugador.equipo.escudo }}"
+                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                        </tr>
+                                    {% elif 'Medio' in jugador.posicion %}
+                                        <tr class="text-center">
+                                            <td><img src="{{ jugador.avatar }}"
+                                                     style="width:24px; height: auto; border-radius: 4px"></td>
+                                            <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.alias }}</a></td>
+                                            <td><span class="pos-3">MC</span></td>
+                                            <td><a href="{% url 'scout:equipo' jugador.equipo.id %}"><img src="{{ jugador.equipo.escudo }}"
+                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                        </tr>
+                                    {% elif 'Delantero' in jugador.posicion %}
+                                        <tr class="text-center">
+                                            <td><img src="{{ jugador.avatar }}"
+                                                     style="width:24px; height: auto; border-radius: 4px"></td>
+                                            <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p style="line-height:25px"></p>{{ jugador.alias }}</a></td>
+                                            <td><span class="pos-4  ">MC</span></td>
+                                            <td><a href="{% url 'scout:equipo' jugador.equipo.id %}"><img src="{{ jugador.equipo.escudo }}"
+                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
+                                        </tr>
+                                    {% endif %}
+
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="row" style="font-size: 12px; color:#455D7A">
+                                <div class="col-md-12">
+                                    <p>&nbsp;<strong>Valor:</strong> {{ alineacion.valor|intcomma }} € - <strong>Edad media:</strong> {{ alineacion.edadMedia }} años</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+            <!-- Pruebas -->
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

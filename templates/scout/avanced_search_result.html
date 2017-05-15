@@ -1,0 +1,72 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <section class="infoEquipo">
+        <div class="container">
+            <div class="row">
+                <hr>
+            </div>
+        </div>
+    </section>
+    <section class="tablaJugadores">
+        <div class="container">
+            <div class="row text-center" style="font-size: 13px;">
+                <div class="col-md-12">
+                    <div class="box-border">
+                        <table id="gestion-equipo" class="table table-hover">
+                            <thead>
+                            <tr>
+                                <td>Dorsal</td>
+                                <td>Foto</td>
+                                <td>Nombre</td>
+                                <td>Posición</td>
+                                <td>Nacionalidad</td>
+                                <td>Valor apox</td>
+                                {% if utilizarRating %}
+                                    <td>Rating</td>
+                                {% endif %}
+                                <td>Perfil</td>
+                                <td>+/- a tu alineación</td>
+
+
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for jugador in jugadores %}
+                                <tr>
+                                <td><p style="line-height:30px">{{ jugador.number }}</p></td>
+                                <td><img src="{{ jugador.image }}"
+                                         style="width:30px; height: auto; border-radius: 4px">
+                                </td>
+                                <td><p style="line-height:30px"><a href="{% url 'scout:player_profile' jugador.id %}">{{ jugador.name }}</a></p></td>
+                                <td><p style="line-height:30px">{{ jugador.position }}</p></td>
+                                <td><p style="line-height:30px">{{ jugador.nationality }}</p></td>
+                                <td><p style="line-height:30px">{{ jugador.value|intcomma }} €</p></td>
+                                {% if utilizarRating %}
+                                    <td><p style="line-height:30px"><strong>{{ jugador.rating }}</strong></p></td>
+                                {% endif %}
+                                <td><a id="showButton" href="{% url 'scout:player_profile' jugador.id %}"
+                                       class="btn btn-default"><i
+                                        class="fa fa-eye" aria-hidden="true"></i> - Explorar</a><s></s></td>
+                                {% if jugador.id in ids_jugadores %}
+                                    <td><a id="removePlayer" href="{% url 'scout:removeJugador' jugador.id %}"
+                                           class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
+                                    </td>
+                                {% else %}
+                                    <td><a id="addPlayer" href="{% url 'scout:addJugador' jugador.id %}"
+                                           class="btn btn-default"><i class="fa fa-plus-square"></i> - Añadir</a>
+                                    </td>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

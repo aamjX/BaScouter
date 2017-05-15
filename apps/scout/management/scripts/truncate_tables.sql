@@ -1,0 +1,7 @@
+SET FOREIGN_KEY_CHECKS=0;
+TRUNCATE TABLE scout_championship;
+TRUNCATE TABLE scout_team;
+TRUNCATE TABLE scout_history;
+TRUNCATE TABLE scout_player;
+TRUNCATE TABLE scout_performance;
+SET FOREIGN_KEY_CHECKS=1;

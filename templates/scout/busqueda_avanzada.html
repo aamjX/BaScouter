@@ -1,0 +1,437 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center" style="color: #455D7A">
+                <h2><i class="fa fa-search" aria-hidden="true"></i> Encuentra
+                    jugadores a tu medida | <a data-toggle="collapse" data-target="#modo-ultra" href="#"
+                                               class="btn btn-default"
+                                               style="color:#455D7A;"><i
+                            class="fa fa-mouse-pointer"></i> ¡Importante!</a></h2>
+                <hr>
+                <br>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 text-left">
+                <div class="collapse" id="modo-ultra">
+                    <div class="alert alert-info"
+                         style="background-color: white; border: 1px solid #455D7A; color:#455D7A;">
+                        <p>- Rellena <strong> <i class="fa fa-paint-brush"></i> sólo</strong> aquellos
+                            campos en los que esté interesado, los demás puede dejarlos en blanco.</p>
+                        <p>- Selecciona el <strong>checkbox <i class="fa fa-mouse-pointer"></i></strong> en
+                            caso de querer utilizar nuestro sistema de puntuación personalizado</p>
+                        <p>- Por defecto tenemos un rango de edad "Jovén" <strong>amplíalo <i
+                                class="fa fa-sort-asc"></i></strong> si lo desea</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+
+        <div class="row">{{ formulario.mayor_de.errors.as_text }}{{ formulario.menor_de.errors.as_text }}</div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <form id="formulario" method="POST" action="">
+                    <section class="informacion-busqueda">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <a id="addPlayer" href="{% url 'usuario:editarBusqueda' %}" class="btn btn-default"
+                                   style="width: 40%"><i
+                                        class="fa fa-cogs"></i> Editar valores de búsqueda
+                                </a>
+                            </div>
+
+                            <div class="col-md-12 text-center">
+                                <div class="radio">
+                                    <hr>
+                                    <label style="font-size: 20px; color:#455D7A">{{ formulario.utilizarRating }}
+                                        Utilizar sistema de puntuación personalizada</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+                    </section>
+
+                    <section class="errores">
+                        <div class="row">
+                            {% if form.temporada.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.temporada.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.competicion.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.competicion.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.nombreCompleto.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.nombreCompleto.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.alias.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.alias.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.dorsal.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.dorsal.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.mayor_altura_de.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.mayor_altura_de.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.menor_altura_de.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.menor_altura_de.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.mayor_de.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.mayor_de.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.menor_de.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.menor_de.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.mayor_valor_de.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.mayor_valor_de.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.menor_valor_de.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.menor_valor_de.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.fichado.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.fichado.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.pie.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.pie.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.contratoHasta.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.contratoHasta.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.posicion.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.posicion.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.nacionalidad.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.nacionalidad.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.proveedor.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.proveedor.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if form.agente.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formulario.agente.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </section>
+
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-5 text-center">
+                            <fieldset>
+                                <legend>Temporada a considerar:</legend>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i
+                                            class="fa fa-filter"></i></span>
+                                    {{ formulario.temporada }}
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-7 text-center">
+                            <legend>Competición:</legend>
+                            <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-trophy"></i></span>
+                                {{ formulario.competicion }}
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-user"></i></span>
+                                {{ formulario.nombreCompleto }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-user-plus"></i></span>
+                                {{ formulario.alias }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-crosshairs"></i></span>
+                                {{ formulario.dorsal }}
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <fieldset>
+                                <legend>Altura: <span>desde - hasta (m)</span></legend>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-arrows-v"></i></span>
+                                            {{ formulario.mayor_altura_de }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-arrows-v"></i></span>
+                                            {{ formulario.menor_altura_de }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <fieldset>
+                                <legend>Valor: <span>desde - hasta (€)</span></legend>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-money"></i></span>
+                                            {{ formulario.mayor_valor_de }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-money"></i></span>
+                                            {{ formulario.menor_valor_de }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <fieldset>
+                                <legend>Fecha de nacimiento: <span>desde - hasta</span></legend>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-calendar"></i></span>
+                                            {{ formulario.mayor_de }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-calendar"></i></span>
+                                            {{ formulario.menor_de }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <fieldset>
+                                <legend>Fichado en:</legend>
+                                <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-calendar-times-o"></i></span>
+                                    {{ formulario.fichado }}
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <fieldset>
+                                <legend>Pie preferente:</legend>
+                                <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-magic"></i></span>
+                                    {{ formulario.pie }}
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <fieldset>
+                                <legend>Contrato hasta:</legend>
+                                <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon1"><i
+                                                class="fa fa-calendar-times-o"></i></span>
+                                    {{ formulario.contratoHasta }}
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend><i
+                                        class="fa fa-map-pin"></i> Posición:
+                                </legend>
+                                {{ formulario.posicion }}
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend><i
+                                        class="fa fa-plane"></i> Nacionalidad:
+                                </legend>
+                                {{ formulario.nacionalidad }}
+                            </fieldset>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row text-center">
+                        <div class="col-md-6 text-center">
+                            <fieldset>
+                                <legend><i
+                                        class="fa fa-newspaper-o"></i> Proveedor:
+                                </legend>
+                                {{ formulario.proveedor }}
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend><i
+                                        class="fa fa-coffee"></i> Agente:
+                                </legend>
+                                {{ formulario.agente }}
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3">
+                        <div class="form-group text-center">
+                            <br><br>
+
+                            <a href="{% url 'scout:principal' %}" id="volver"
+                               class="btn btn-primary"><i class="fa fa-reply"></i>
+                                Volver</a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group text-center">
+                            <br><br>
+                            <button class="btn btn-primary" type="submit"><i class="fa fa-search-plus"></i> Buscar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </form>
+            </div>
+        </div>
+        <br><br>
+    </div>
+
+
+    <script type="text/javascript">
+        $(function () {
+            $('input[name="mayor_de"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            });
+            $('input[name="menor_de"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            });
+        });
+
+        function a_d_temporada() {
+            if (document.getElementById('id_utilizarRating').checked) {
+                document.getElementById('id_temporada').disabled = false;
+            } else {
+                document.getElementById('id_temporada').disabled = true;
+            }
+        }
+
+    </script>
+
+    <script>$('input[name="daterange"]').daterangepicker();</script>
+{% endblock %}

@@ -1,0 +1,167 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block extrastatic %}
+{% endblock %}
+
+{% block content %}
+    <section class="registro">
+        <div class="container">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <fieldset>
+                    <legend>
+                        <div class="row text-center"><br><i class="fa fa-handshake-o"></i> Introduzca sus datos</div>
+                    </legend>
+                    <div class="row">
+                        {% if form.first_name.errors %}
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.first_name.errors.as_text }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if form.last_name.errors %}
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.last_name.errors.as_text }}
+                                </div>
+                            </div>{% endif %}
+                        {% if form.email.errors %}
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.email.errors.as_text }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if form.username.errors %}
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.username.errors.as_text }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if form.username.errors %}
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.username.errors.as_text }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if form.password1.errors %}
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.password1.errors.as_text }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if form.password2.errors %}
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.password2.errors.as_text }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <br>
+                        <form id="form" method="post" action="">
+                            {% csrf_token %}
+
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-child"></i></span>
+                                    {{ form.first_name }}
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-edit"></i></span>
+                                    {{ form.last_name }}
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i
+                                            class="fa fa-envelope"></i></span>
+
+                                    {{ form.email }}
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
+                                    {{ form.username }}
+                                </div>
+                                <br>
+                            </div>
+                            {% if form.password1.errors %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ form.password1.errors.as_text }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
+                                    <input id="id_password1" name="password1" type="password" required=""
+                                           class="form-control" placeholder="Contraseña"
+                                           aria-describedby="basic-addon5">
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
+                                    <input class="form-control" id="id_password2" name="password2" type="password"
+                                           required="" placeholder="Confirme su contraseña"
+                                           aria-describedby="basic-addon6">
+                                </div>
+                                <br>
+                            </div>
+                            {% if message %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="col-md-12 text-center">
+                                <div class="input-group">
+                                    &nbsp;<input type="checkbox" id="cbox2" name="cbox2" value="True"><label
+                                        style="color:#455D7A" for="cbox2">&nbsp;&nbsp;Usted
+                                    acepta los Terminos y Condiciones establecidos por BaSccouter</label>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <button class="btn btn-primary" type="submit"><i
+                                                    class="fa fa-handshake-o"></i> Registrar
+                                            </button>
+                                        </div>
+
+                                        <div class="col-md-5"><a href="{% url 'index' %}" id="volver"
+                                                                 class="btn btn-primary"><i class="fa fa-reply"></i>
+                                            Volver</a></div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </section>
+{% endblock %}
+

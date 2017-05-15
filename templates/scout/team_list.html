@@ -1,0 +1,102 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <section class="infoCompeticion">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1 text-center" style="padding-top: 18px;"><a id="returnButton"
+                                                                                href="{% url 'scout:principal' %}"
+                                                                                class="btn btn-default"><i
+                        class="fa fa-mail-reply" aria-hidden="true"></i> - Volver <span
+                        style="font-size: 15px;"></span></a></div>
+                <div class="col-md-1 text-center">
+                    <button id="desplegable-button" type="button" class="btn btn-default" data-toggle="collapse"
+                            data-target="#modo-ultra"><img src="{{ championship.logo }}"
+                                                           style="width:50px; height: auto">
+                        <strong style="font-size: 20px; color:#455D7A"></strong>
+
+                    </button>
+                </div>
+
+                <div class="col-md-10" style="padding-top: 18px;">
+                    <form action="#" method="get">
+                        <div class="input-group">
+                            <span style="background-color: #E3E3E3; color: #455D7A;" class="input-group-addon"
+                                  id="basic-addon1"><i
+                                    class="glyphicon glyphicon-search"></i></span>
+                            <input class="form-control" id="system-search" name="q" placeholder="Buscar..."
+                                   aria-describedby="basic-addon1" required>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="collapse" id="modo-ultra">
+                        <br>
+                        <div class="alert alert-info"
+                             style="background-color: white; border: 1px solid #455D7A; color:#455D7A;">
+                            <strong>Nombre: </strong>{{ championship.name }}<br>
+                            <strong>Categoría:</strong> {{ championship.category }}<br>
+                            <strong>Número de equipos:</strong> {{ teamsCount }}<br>
+                            <strong>Número de jugadores:</strong> {{ playerCount }}<br>
+                            <strong>Valor de la competición:</strong> {{ value|intcomma }} €
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="tablaEquipos">
+        <div class="container">
+
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <div class="box-border" style="padding: 10px">
+                        <table id="gestion-equipo" class="table table-hover table-list-search">
+                            <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Escudo</td>
+                                <td>Nombre</td>
+                                <td>Nª de jugadores</td>
+                                <td>Extranjeros</td>
+                                <td>Edad Media (años)</td>
+                                <td>Valor aprox</td>
+                                <td>Explorar</td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for team in teams %}
+                                <tr>
+                                <td><p style="line-height:30px">{{ team.id }}</p></td>
+                                <td><img src="{{ team.badge }}" style="width:30px; height: auto"></td>
+                                <td><a href="{% url 'scout:player_list' team.id %}"><p style="line-height:30px">{{ team.name }}</p></a></td>
+                                <td><p style="line-height:30px">{{ team.squad }}</p></td>
+                                <td><p style="line-height:30px">{{ team.foreignCount }}</p></td>
+                                <td><p style="line-height:30px">{{ team.avgAge }}</p></td>
+                                <td><p style="line-height:30px">{{ team.value|intcomma }} €</p></td>
+                                <td><a id="showButton" href="{% url 'scout:player_list' team.id %}"
+                                       class="btn btn-default"><i
+                                        class="fa fa-eye" aria-hidden="true"></i> - Explorar</a>
+                                </td>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

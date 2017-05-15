@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block extrastatic %}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ formulario.as_p }}
+        <button type="submit">Comprobar</button>
+    </form>
+{% endblock %}

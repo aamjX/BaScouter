@@ -1,0 +1,130 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <div class="container" style="color: #455D7A">
+        <div class="row">
+            <div class="col-md-12">
+                <h2><i class="fa fa-search" aria-hidden="true"></i> Resultados para: {{ key_word }} <hr></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3><i class="fa fa-futbol-o" aria-hidden="true"></i> Equipos:</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                {% if equipos|length == 0 %}
+                    <hr>
+                    <h4><i class="fa fa-frown-o" aria-hidden="true"></i> Sin equipos</h4>
+                    <br>
+                {% else %}
+                    <br>
+                    <div class="box-border" style="padding: 10px">
+                        <table id="gestion-equipo" class="table table-hover table-list-search">
+                            <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Escudo</td>
+                                <td>Nombre</td>
+                                <td>Nª de jugadores</td>
+                                <td>Extranjeros</td>
+                                <td>Edad Media (años)</td>
+                                <td>Valor aprox</td>
+                                <td>Explorar</td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for equipo in equipos %}
+                                <tr>
+                                <td><p style="line-height:30px">{{ equipo.id }}</p></td>
+                                <td><img src="{{ equipo.escudo }}" style="width:30px; height: auto"></td>
+                                <td><a href="{% url 'scout:equipo' equipo.id %}"><p
+                                        style="line-height:30px">{{ equipo.nombre }}</p></a></td>
+                                <td><p style="line-height:30px">{{ equipo.plantilla }}</p></td>
+                                <td><p style="line-height:30px">{{ equipo.extranjeros }}</p></td>
+                                <td><p style="line-height:30px">{{ equipo.edadMedia }}</p></td>
+                                <td><p style="line-height:30px">{{ equipo.valor|intcomma }} €</p></td>
+                                <td><a id="showButton" href="{% url 'scout:equipo' equipo.id %}"
+                                       class="btn btn-default"><i
+                                        class="fa fa-eye" aria-hidden="true"></i> - Explorar</a>
+                                </td>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3><i class="fa fa-users" aria-hidden="true"></i> Usuarios: <br></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                {% if usuarios|length == 0 %}
+                    <hr>
+                    <h4><i class="fa fa-frown-o" aria-hidden="true"></i> Sin registros<h4>
+                    <br>
+                {% else %}
+                    <br>
+                    <div class="box-border" style="padding:10px">
+                        <table id="gestion-equipo" class="table table-hover table-list-search">
+                            <thead>
+                            <tr>
+                                <td>Avatar</td>
+                                <td>Nombre de usuario</td>
+                                <td>Nombre</td>
+                                <td>Apellidos</td>
+                                <td>Sexo</td>
+                                <td>Localización</td>
+                                <td>Popular</td>
+                                <td>¿Seguir?</td>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for usuario in usuarios %}
+                                <tr>
+                                    <td><img src="{{ usuario.profile.image }}"
+                                             style="width:40px; height: auto; border-radius: 4px">
+                                    </td>
+                                    <td><p style="line-height:30px"><a
+                                            href="{% url 'usuario:perfil' usuario.id %}">{{ usuario.username }}</a>
+                                    </p></td>
+                                    <td><p style="line-height:30px">{{ usuario.first_name }}</p></td>
+                                    <td><p style="line-height:30px">{{ usuario.last_name }}</p></td>
+                                    <td><p style="line-height:30px">{{ usuario.profile.sex }}</p></td>
+                                    <td><p style="line-height:30px">{{ usuario.profile.location }}</p></td>
+                                    <td>
+                                        <p style="line-height:30px"><i class="fa fa-heart" aria-hidden="true"
+                                                                       style="color: #F95959; font-size: 13px"></i> {{ usuario.alineacion.numMeGustaTotales }}
+                                        </p>
+                                    </td>
+                                    <td><p style="line-height:30px">
+                                        {% if usuario.id != request.user.id %}
+                                            {% if usuario in request.user.profile.following.all %}
+                                                <a id="removePlayer" class="btn btn-default"
+                                                   href="{% url 'usuario:unfollow' usuario.id %}"><i
+                                                        class="fa fa-user-times"></i> Dejar de
+                                                    seguir</a>{% else %}<a id="addPlayer" class="btn btn-default"
+                                                                           href="{% url 'usuario:follow' usuario.id %}"><i
+                                                    class="fa fa-user-plus"></i> Seguir</a>
+                                            {% endif %}
+                                            </p></td>
+                                            </tr>
+                                        {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

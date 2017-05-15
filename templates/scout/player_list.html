@@ -1,0 +1,113 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <section class="infoEquipo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1 text-center" style="padding-top: 18px;"><a
+                        id="returnButton" href="{% url 'scout:team_list' team.championship.id %}"
+                        class="btn btn-default"><i
+                        class="fa fa-mail-reply" aria-hidden="true"></i> - Volver <span
+                        style="font-size: 15px;"></span></a></div>
+                <div class="col-md-1 text-center">
+                    <button id="desplegable-button" type="button" class="btn btn-default" data-toggle="collapse"
+                            data-target="#modo-ultra"><img src="{{ team.badge }}"
+                                                           style="width:50px; height: auto">
+                        <strong style="font-size: 20px; color:#455D7A"></strong>
+
+                    </button>
+                </div>
+
+                <div class="col-md-10" style="padding-top: 18px;">
+                    <form action="#" method="get">
+                        <div class="input-group">
+                            <span style="background-color: #E3E3E3; color: #455D7A;" class="input-group-addon"
+                                  id="basic-addon1"><i
+                                    class="glyphicon glyphicon-search"></i></span>
+                            <input class="form-control" id="system-search" name="q" placeholder="Buscar..."
+                                   aria-describedby="basic-addon1" required>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="collapse" id="modo-ultra">
+                        <br>
+                        <div class="alert alert-info"
+                             style="background-color: white; border: 1px solid #455D7A; color:#455D7A;">
+                            <strong>Equipo: </strong>{{ team.name }}<br>
+                            <strong>Categoría:</strong> {{ team.championship.name }}<br>
+                            <strong>Número de jugadores:</strong> {{ team.squad }}<br>
+                            <strong>Número de extranjeros:</strong> {{ team.foreignCount }}<br>
+                            <strong>Valor del equipo:</strong> {{ team.value|intcomma }} €<br>
+                            <strong>Edad media (años):</strong> {{ team.avgAge }}
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="tablaJugadores">
+        <div class="container">
+
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <div class="box-border" style="padding:10px">
+                        <table id="gestion-equipo" class="table table-hover table-list-search">
+                            <thead>
+                            <tr>
+                                <td>Dorsal</td>
+                                <td>Foto</td>
+                                <td>Nombre</td>
+                                <td>Posición</td>
+                                <td>Nacionalidad</td>
+                                <td>Valor apox</td>
+                                <td>Perfil</td>
+                                <td>+/- a tu alineación</td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for player in players %}
+                                <tr>
+                                    <td><p style="line-height:30px">{{ player.number }}</p></td>
+                                    <td><img src="{{ player.image }}"
+                                             style="width:30px; height: auto; border-radius: 4px">
+                                    </td>
+                                    <td><a href="{% url 'scout:player_profile' player.id %}"><p style="line-height:30px">{{ player.name }}</p></a></td>
+                                    <td><p style="line-height:30px">{{ player.position }}</p></td>
+                                    <td><p style="line-height:30px">{{ player.nationality }}</p></td>
+                                    <td><p style="line-height:30px">{{ player.value|intcomma }} €</p></td>
+                                    <td><a id="showButton" href="{% url 'scout:player_profile' player.id %}"
+                                           class="btn btn-default"><i
+                                            class="fa fa-eye" aria-hidden="true"></i> - Explorar</a><s></s></td>
+                                    {% if player.id in players_id %}
+                                        <td><a id="removePlayer" href="{% url 'scout:removeJugador' player.id %}"
+                                               class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
+                                        </td>
+                                    {% else %}
+                                        <td><a id="addPlayer" href="{% url 'scout:addJugador' player.id %}"
+                                               class="btn btn-default"><i class="fa fa-plus-square"></i> - Añadir</a>
+                                        </td>
+                                    {% endif %}
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <br><br>
+                {% if isAdd == True %}
+                    <div class="alert alert-success" role="alert">¡Enhorabuena! Has <strong>añadido</strong> a <a
+                            href="{% url 'scout:perfilJugador' jugador.id %}">{{ jugador.alias }}</a> a tu plantilla de
+                        jugadores.
+                        Puedes gestionar tu equipo desde <a href="{% url 'scout:gestionar_alineacion' %}"><i
+                                class="fa fa-wrench"></i>
+                        Gestionar mi plantilla</a></li> </div><br>
+                    <a style="color:#455D7A;" href="{% url 'scout:perfilJugador' jugador.id %}" class="btn btn-default"><i class="fa fa-thumbs-o-up"></i> Vale</a>
+
+                {% else %}
+
+                    <div class="alert alert-danger" role="alert">¡Enhorabuena! Has <strong>eliminado</strong> a <a
+                            href="{% url 'scout:perfilJugador' jugador.id %}">{{ jugador.alias }}</a> a tu plantilla de
+                        jugadores.
+                        Puedes gestionar tu equipo desde <a href="{% url 'scout:gestionar_alineacion' %}"><i
+                                class="fa fa-wrench"></i>
+                        Gestionar mi plantilla</a></li> </div><br>
+                    <a style="color:#455D7A;" href="{% url 'scout:equipo' equipo.id %}" class="btn btn-default"><i class="fa fa-thumbs-o-up"></i> Vale</a>
+
+                {% endif %}
+                <br><br><br><br>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

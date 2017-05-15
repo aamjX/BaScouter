@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+{% load humanize %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center" style="color:#455D7A"><h2><i class="fa fa-commenting-o" aria-hidden="true"></i> Deja tu comentario</h2><hr></div>
+            <div class="col-md-12 text-center">
+                <br>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.text }}<br>
+                    <a id="volver" style="width: 120px" class="btn btn-default" href="{% url 'usuario:perfil' usuario_id%}"><i class="fa fa-reply"></i> Volver</a>
+                    <button class="btn btn-primary" style="width: 120px" type="submit"><i class="fa fa-comments"></i> Comentar</button><br>
+                </form>
+                <br><br><br><br>
+            </div>
+        </div>
+    </div>
+{% endblock %}

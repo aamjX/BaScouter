@@ -1,0 +1,255 @@
+body, html {
+    height: 100%;
+}
+
+.parallax {
+    /* The image used */
+    background-image: url('../img/portada-index.jpg');
+    /* Full height */
+    height: 100%;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+}
+
+.parallax-filter {
+    position: relative;
+    /* The image used */
+    background-color: rgba(0, 0, 0, 0);
+    /* Full height */
+    height: 100%;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 5;
+}
+
+/*LOGIN*/
+
+#panel-login {
+    position: absolute;
+    padding: 50px 50px 50px 50px;
+    background-color: rgba(0, 0, 0, 0.6);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border: 0px solid #E3E3E3;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #233142;
+    border-color: #233142;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #455D7A;
+    border-color: #455D7A;
+}
+
+#recover-password {
+    color: #fff;
+    background-color: #F95959;
+    border-color: #F95959;
+    width: 100%;
+}
+
+#recover-password:hover {
+    color: #fff;
+    background-color: #FA8383;
+    border-color: #FA8383;
+}
+
+/* Nav-bar*/
+
+a.navbar-brand {
+    background: url('../img/WEB 2.png') center / contain no-repeat;
+    width: 200px;
+    margin: 10px;
+}
+
+#header-link {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+#header-link:hover {
+    color: #6892c5;
+    text-decoration: none;
+}
+
+.navbar-default {
+    background-color: #233142;
+    border-bottom: 0px solid #E3E3E3;
+    min-height: 0px;
+}
+
+.navbar-default .navbar-brand {
+    font-size: 30px;
+    line-height: 41px;
+    color: #E3E3E3;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: white;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    background-color: transparent;
+    color: white;
+
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: white;
+    text-decoration: underline;
+}
+
+.navbar-nav > li > a {
+    line-height: 5px;
+    padding-top: 35px;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    font-size: 16px;
+}
+
+/* Paneles de información*/
+
+#info-panel {
+    background-color: #fff;
+    border: 1px solid #fff;
+}
+
+h4 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+}
+
+/** Contacto **/
+section.contacto {
+    background-color: #4f5962;
+    color: white;
+    padding: 10px;
+}
+
+section.contacto .borde {
+    border: 1px solid #697279;
+    padding-bottom: 20px;
+}
+
+section.contacto p {
+    margin-bottom: 25px;
+}
+
+section.contacto .btn-default {
+    background-color: #67727c;
+    border: 2px solid white;
+    color: white;
+}
+
+section.contacto .btn-default:hover {
+    background-color: #455D7A;
+    border: 2px solid white;
+    color: white;
+}
+
+section.contacto .btn-lg {
+    padding: 10px 46px;
+}
+
+/**FOOTER**/
+
+footer {
+    background-color: #2d3235;
+    padding-top: 30px;
+}
+
+footer h5 {
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+footer hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 2px solid #e3e3e3;
+    margin: 1em 0;
+    padding: 0;;
+}
+
+footer a {
+    color: #e3e3e3;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
+footer p {
+    color: white;
+}
+
+footer .nav > li > a:hover,
+footer .nav > li > a:focus {
+    background-color: transparent;
+}
+
+/**
+footer{
+	background-color: #2d3235;
+	padding-top: 30px;
+}
+
+footer h5{
+	color: #fff;
+	font-family: 'Raleway', sans-serif;
+	font-weight: 700;
+	font-size: 18px;
+}
+
+footer hr{
+	border-top: 2px solid #fff;
+}
+
+footer p{
+	color: #fff;
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 24px;
+}
+
+.panel-pricing>.panel-footer{
+	padding: 0px; !important
+}
+**/
+
+/* Turn off parallax scrolling for tablets and phones. Increase the pixels if needed */
+@media only screen and (max-device-width: 1024px) {
+    .parallax {
+        background-attachment: scroll;
+    }
+}

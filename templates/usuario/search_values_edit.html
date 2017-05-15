@@ -1,0 +1,242 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block extrastatic %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="color: #455D7A">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2><i class="fa fa-edit"></i> Edita los valores predeterminados de búsqueda | <a data-toggle="collapse"
+                                                                                                  data-target="#modo-ultra"
+                                                                                                  href="#"
+                                                                                                  class="btn btn-default"
+                                                                                                  style="color:#455D7A;"><i
+                        class="fa fa-mouse-pointer"></i> ¿Qué son estos
+                    valores?</a></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="collapse" id="modo-ultra">
+                    <br>
+                    <div class="alert alert-info"
+                         style="background-color: white; border: 1px solid #455D7A; color:#455D7A;">
+                        <p>Los valores permitidos son desde -10 hasta 10 inclusive éstos.</p>
+                        <p>Estos valores índican el nivel de importancia que le das a cada estadística de un jugador cuando utilizas la búsqueda con rating.</p>
+                        <p>Pulsa el botón de reestablecer para que estos vuelvan al valor inicial que da BaScouter, el cuál es adecuado para un usuario normal.</p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <hr>
+                <a id="addPlayer" style="width: 250px" class="btn btn-default"
+                   href="#" onclick="reset_values()"><i class="fa fa-refresh"></i>
+                    Reestablecer valores por defecto</a></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8"><br><h4>Aspectos generales</h4>
+                        <hr>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Partidos convocados:</label>
+                            {{ form.squad }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Partidos como titular:</label>
+                            {{ form.principals }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Amarillas recibidas:</label>
+                            {{ form.yellowCards }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Rojas recibidas:</label>
+                            {{ form.redCards }}
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"><h4><span class="pos-1">MC</span> | Puntuación para porteros</h4>
+                        <hr>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Goles marcados:</label>
+                            {{ form.goalkeeper_goals }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Pases de gol:</label>
+                            {{ form.goalkeeper_assists }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Goles en propia puerta:</label>
+                            {{ form.goalkeeper_ownGoals }}
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"><h4><span class="pos-2">MC</span> | Puntuación para defensas</h4>
+                        <hr>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Goles marcados:</label>
+                            {{ form.defence_goals }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Pases de gol:</label>
+                            {{ form.defence_assists }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Goles en propia puerta:</label>
+                            {{ form.defence_ownGoals }}
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"><h4><span class="pos-3">MC</span> | Puntuación para mediocentros
+                    </h4>
+                        <hr>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Goles marcados:</label>
+                            {{ form.midfield_goals }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Pases de gol:</label>
+                            {{ form.midfield_assists }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Goles en propia puerta:</label>
+                            {{ form.midfield_ownGoals }}
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6"><h4><span class="pos-4">DC</span> | Puntuación para delenteros
+                    </h4>
+                        <hr>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Goles marcados:</label>
+                            {{ form.striker_goals }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Pases de gol:</label>
+                            {{ form.striker_assists }}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="username">Goles en propia puerta:</label>
+                            {{ form.striker_ownGoals }}
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+
+                </div>
+                <div class="row">
+                    <div class="colmd-12 text-center">
+                        <br><br>
+                        <a id="volver" style="width: 120px" class="btn btn-default"
+                           href="{% url 'scout:busqueda_avanzada' %}"><i class="fa fa-reply"></i> Volver</a>
+                        <button class="btn btn-primary" style="width: 120px" type="submit"><i
+                                class="fa fa-edit"></i> Editar
+                        </button>
+                        <br><br></div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function reset_values() {
+            document.getElementById("id_squad").value = 1.0;
+            document.getElementById("id_principals").value = 2.0;
+            document.getElementById("id_yellowCards").value = -1.0;
+            document.getElementById("id_redCards").value = -1.0;
+            document.getElementById("id_goalkeeper_goals").value = 6.0;
+            document.getElementById("id_goalkeeper_assists").value = 5.0;
+            document.getElementById("id_goalkeeper_ownGoals").value = -6.0;
+            document.getElementById("id_defence_goals").value = 6.0;
+            document.getElementById("id_defence_assists").value = 5.0;
+            document.getElementById("id_defence_ownGoals").value = -5.0;
+            document.getElementById("id_midfield_goals").value = 4.5;
+            document.getElementById("id_midfield_assists").value = 3.0;
+            document.getElementById("id_midfield_ownGoals").value = -2.0;
+            document.getElementById("id_striker_goals").value = 3.0;
+            document.getElementById("id_striker_assists").value = 2.0;
+            document.getElementById("id_striker_ownGoals").value = 3.0;
+
+        }
+    </script>
+{% endblock %}
+

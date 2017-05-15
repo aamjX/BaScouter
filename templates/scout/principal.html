@@ -1,0 +1,58 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block extrastatic %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+    <section class="mensaje">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert"><p class="text-center">¡Bienvenido a BaScouter! Utiliza
+                    nuestra búsqueda avanzada, o si lo prefieres, siéntete libre
+                    de explorar todas las competiciones disponibles hasta el momento. Crea tu equipo y ¡Sé el mejor!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="busqueda text-center"><a class="btn btn-lg btn-default"
+                                                     href="{% url 'scout:busqueda_avanzada' %}">Búsqueda avanzada <i
+                    class="fa fa-cogs"></i></a>
+            </section>
+        </div>
+    </div>
+    <hr>
+    <section class="paneles-competiciones">
+        <div class="row">
+            {% for championship in championships %}
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title text-center">{{ championship.name }}</h3></div>
+                        <div class="panel-body">
+                            <img src="{{ championship.logo }}" class="img-responsive" style="margin: 0 auto">
+                            <hr>
+                            <section class="explorar text-center">
+                                <a class="btn btn-default btn-lg"
+                                   href="{% url 'scout:team_list' championship.id %}"><i class="fa fa-eye"></i>
+                                    Explorar</a>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    </div>
+
+    <hr>
+{% endblock %}
+
+
+

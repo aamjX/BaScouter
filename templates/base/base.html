@@ -1,0 +1,334 @@
+{% load staticfiles %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
+
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/supporting.css' %}">
+
+    <!-- Include Required Prerequisites -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+        var ScrollSneak = function (prefix, wait) {
+            // clean up arguments (allows prefix to be optional - a bit of overkill)
+            if (typeof(wait) == 'undefined' && prefix === true) prefix = null, wait = true;
+            prefix = (typeof(prefix) == 'string' ? prefix : window.location.host).split('_').join('');
+            var pre_name;
+
+            // scroll function, if window.name matches, then scroll to that position and clean up window.name
+            this.scroll = function () {
+                if (window.name.search('^' + prefix + '_(\\d+)_(\\d+)_') == 0) {
+                    var name = window.name.split('_');
+                    window.scrollTo(name[1], name[2]);
+                    window.name = name.slice(3).join('_');
+                }
+            }
+            // if not wait, scroll immediately
+            if (!wait) this.scroll();
+
+            this.sneak = function () {
+                // prevent multiple clicks from getting stored on window.name
+                if (typeof(pre_name) == 'undefined') pre_name = window.name;
+
+                // get the scroll positions
+                var top = 0, left = 0;
+                if (typeof(window.pageYOffset) == 'number') { // netscape
+                    top = window.pageYOffset, left = window.pageXOffset;
+                } else if (document.body && (document.body.scrollLeft || document.body.scrollTop)) { // dom
+                    top = document.body.scrollTop, left = document.body.scrollLeft;
+                } else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop)) { // ie6
+                    top = document.documentElement.scrollTop, left = document.documentElement.scrollLeft;
+                }
+                // store the scroll
+                if (top || left) window.name = prefix + '_' + left + '_' + top + '_' + pre_name;
+                return true;
+            }
+        }
+    </script>
+    {% block extrastatic %}
+    {% endblock %}
+
+    <title>{% block title %}Become a Scouter {% endblock %}</title>
+</head>
+<body>
+
+{% block navbar %}
+    <style>
+        body {
+            padding-top: 100px;
+        }
+
+        .navbar-template {
+            padding: 40px 15px;
+        }
+    </style>
+    {% if request.user.is_authenticated %}
+        <header>
+            <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{% url 'scout:principal' %}"></a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <form class="navbar-form navbar-left" role="search" method="GET" action="/scout/search/">
+                            <div id="search-form" class="form-group">
+                                <div class="input-group">
+                                    <input id="input-search-form" type="text" class="form-control"
+                                           placeholder="Curiosea..." name="key">
+                                </div>
+                            </div>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+
+                            <li><a style="margin-top: -6px" href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="fa fa-trophy"></i> Competiciones <b
+                                    class="caret"></b></a>
+                                <ul class="dropdown-menu" style="background-color: #fff">
+                                    <li><a href="{% url 'scout:team_list' 1 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/gb1.png?lm=1466545776">
+                                        Premier League</a></li>
+                                    <li><a href="{% url 'scout:team_list' 2 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/es1.png?lm=1468620254">
+                                        La Liga</a></li>
+                                    <li><a href="{% url 'scout:team_list' 3 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/it1.png?lm=1473075742">
+                                        Serie A</a></li>
+                                    <li><a href="{% url 'scout:team_list' 4 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/l1.png?lm=1408554662">
+                                        1.Bundesliga</a></li>
+                                    <li><a href="{% url 'scout:team_list' 5 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/fr1.png?lm=1404072502">
+                                        Ligue 1</a></li>
+                                    <li><a href="{% url 'scout:team_list' 6 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/tr1.png?lm=1442110142">
+                                        Süper Lig</a></li>
+                                    <li><a href="{% url 'scout:team_list' 7 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/po1.png?lm=1485174349">
+                                        Liga NOS</a></li>
+                                    <li><a href="{% url 'scout:team_list' 8 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/es2.png?lm=1468620267">
+                                        La Liga2</a></li>
+                                    <li><a href="{% url 'scout:team_list' 9 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/gb2.png?lm=1466589593">
+                                        Championship</a></li>
+                                    <li><a href="{% url 'scout:team_list' 10 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/l2.png?lm=1408653255">
+                                        2.Bundesliga</a></li>
+                                    <li><a href="{% url 'scout:team_list' 11 %}"><img
+                                            style="width: 30px; height: auto"
+                                            src="http://tmssl.akamaized.net//images/logo/normal/it2.png?lm=1478691977">
+                                        Serie B</a></li>
+                                </ul>
+                            </li>
+                            <li><a style="margin-top: -6px" href="{% url 'usuario:following' request.user.id %}"><i
+                                    class="	fa fa-star"
+                                    aria-hidden="true"></i>
+                                Siguiendo <span style="background-color: #455D7A; color:#fff"
+                                                 class="badge">{{ request.user.profile.following.all|length }}</span></a>
+                            </li>
+
+                            <li>
+
+                                <a style="margin-top: -6px" href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                        class="fa fa-user"></i> {{ request.user.get_username }} <b
+                                        class="caret"></b></a>
+                                <ul class="dropdown-menu" style="background-color: #fff">
+                                    <li><a href="{% url 'usuario:perfil' request.user.id %}"><i
+                                            class="fa fa-trophy"></i> Mi perfil</a></li>
+                                    <li><a href="{% url 'usuario:list' %}"><i class="fa fa-eye"></i> Explorar
+                                        usuarios</a></li>
+                                    <li><a href="{% url 'scout:busqueda_avanzada' %}"><i class="fa fa-cogs"></i>
+                                        Búsqueda avanzada</a></li>
+                                    <li><a href="{% url 'scout:gestionar_alineacion' %}"><i class="fa fa-wrench"></i>
+                                        Gestionar mi plantilla</a></li>
+                                    <li><a href="{% url 'scout:listar_alineaciones' %}"><i
+                                            class="fa fa-soccer-ball-o"></i> Explorar plantillas</a></li>
+                                    <li><a href="{% url 'usuario:logout' %}"><i class="fa fa-sign-out"></i> Cerrar
+                                        sesión</a></li>
+                                </ul>
+                            </li>
+                            <li id="img-perfil"><a href="{% url 'usuario:perfil' request.user.id %}">
+                                {% if '' == request.user.profile.image %}<img
+                                        src="{% static 'img/perfil.png' %}">{% else %}<img
+                                        src="{{ request.user.profile.image }}">{% endif %}</a></li>
+
+
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </header>
+    {% else %}
+        <header>
+            <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{% url 'index' %}"></a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a id="header-link" href="{% url 'index' %}">Inicio</a></li>
+                            <li><a id="header-link" href="#">¿BaScouter?</a></li>
+                            <li><a id="header-link" href="{% url 'usuario:registrar' %}">¡Regístrate!</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </header>{% endif %}
+    </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h4> Bloque de contenido </h4>
+{% endblock %}
+
+
+{% block footer %}
+    <section class="contacto text-center">
+        <div class="borde">
+            <h2 class="blanco">¿Tienes alguna petición que hacernos?</h2>
+            <p>Puedes contactar con nosotros en el siguiente enlace, respondemos lo antes posible</p>
+            <a href="#" class="btn btn-default btn-lg">Contáctanos - <i class="fa fa-keyboard-o"></i></a>
+        </div>
+    </section>
+    <!-- <footer>
+        <div class="container">
+            <div class="row">
+                <nav class="col-md-6">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'index' %}">Inicio</a></li>
+                        <li><a href="#">¿BaScouter?</a></li>
+                        <li><a href="{% url 'usuario:registrar' %}">¡Regístrate!</a></li>
+                    </ul>
+                </nav>
+                <nav class="col-md-4 col-md-offset-2">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><i class="fa fa-github-alt" style="font-size:36px"></i></a></li>
+                        <li><a href="#"><i class="fa fa-telegram" style="font-size:36px"></i></a></li>
+                    </ul>
+                </nav>
+                <div class="clearfix"></div>
+                <hr>
+                <p class="text-center">Copyright 2017 <i class="fa fa-copyright" aria-hidden="true"></i> BaScouter Co.,
+                    Inc.</p>
+
+            </div> <!-- ./row
+        </div> <!--     ./container
+    </footer> -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="text-center" style="color:#e3e3e3;">BaScouter
+                        <hr>
+                    </h5>
+                    <p class="text-justify">Encuentra jugadores a medida. Elige aquellos que creas que mejor pueden venirle a tu equipo, comienza a
+                    diseñar tu plantilla y <strong>¡Sé el mejor!</strong></p>
+                     <i class="fa fa-gavel" style="color: #e3e3e3"></i> <a href="#">Condiciones generales de uso de BaScouter</a>
+
+                </div>
+                <div class="col-md-4 text-center">
+                    <h5 style="color:#e3e3e3;">Enlaces
+                        <hr>
+                    </h5>
+                    <p><a href="#"><i class="fa fa-github" aria-hidden="true" style="font-size: 36px"></i></a>&nbsp;&nbsp;&nbsp;<a href="#"><i class="fa fa-telegram" aria-hidden="true" style="font-size: 34px"></i></a></p>
+
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-center" style="color:#e3e3e3;">Dirección
+                        <hr>
+                    </h5>
+                    <p>
+                    <p>Av. Reina Mercedes<br>
+                        Escuela Técnica Superior Ingeniería de Informática<br>
+                        41012, Sevilla,<br>
+                        España</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <br>
+                    <p><img src="{% static 'img/icon.png' %}" style="height: 25px; width: auto"> Copyright © 2017 BaScouter Co., Inc.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+
+{% block extrajs %}
+    <script src="{% static "js/main.js" %}"></script>
+    <script src="{% static "js/supporting.js" %}"></script>
+    <script>
+        $(function () {
+            $("#input-search-form").autocomplete({
+                source: "/scout/autocomplete_search/",
+                minLength: 2,
+            });
+
+            $("#input-search-form").data("ui-autocomplete")._renderItem = function (ul, item) {
+
+                var $li = $('<li>'), $img = $('<img>');
+
+                $img.attr({
+                    src: item.img,
+                    alt: item.label,
+                    style: 'width:25px; height:auto'
+                });
+
+                $li.attr({
+                    class: 'ui-menu-item'
+                });
+                $li.append('<div id="ui-id-57" tabindex="-1" class="ui-menu-item-wrapper"></div>');
+                $li.find('div').append($img).append('&nbsp;&nbsp;').append(item.label);
+
+
+                return $li.appendTo(ul);
+            };
+        });
+    </script>
+{% endblock %}
+
+</body>
+</html>

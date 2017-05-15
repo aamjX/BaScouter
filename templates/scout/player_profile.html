@@ -1,0 +1,213 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <section class="perfil-jugador">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box" style="padding:10px; box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2)">
+                        <div class="row" style="color:#455D7A;">
+                            <div class="col-md-4 text-center" style="font-size: 14px"><h2>
+                                <strong style="color: #233142"> #{{ player.name }}</strong></h2><img
+                                    src="{{ player.image }}"
+                                    style="border-radius: 10px; width: 100px; height: auto; background-size: 100% auto; border: 2px solid #E3E3E3;">
+                                <hr>
+                                <a href="{% url 'scout:team_list' player.team.championship.id %}"><img src="{{ player.team.championship.logo }}"
+                                     style="width: 30px; height: auto">
+                                <strong>{{ player.team.championship.name }}</strong></a>
+                                | <a href="{% url 'scout:player_list' player.team.id %}"><img src="{{ player.team.badge }}" style="width: 26px; height: auto">
+                                <strong>{{ player.team.name }}</strong></a>
+                            </div>
+                            <div class="col-md-4" style="font-size: 14px"><p><strong><i
+                                    class="fa fa-user-plus"></i> Alias:</strong> {{ player.name }}</p>
+                                <p><strong><i class="fa fa-user"></i> Nombre:</strong>
+                                    {% if '' == player.fullName %}
+                                        -{% else %}
+                                        {{ player.fullName  }}{% endif %}</p>
+                                <p><strong><i class="fa fa-plane"></i> Nacionalidad:</strong>
+                                    {% if '' == player.nationality %}-
+                                    {% else %}{{ player.nationality }}{% endif %}</p>
+                                <p><strong><i class="fa fa-hourglass-1"></i> Edad:</strong> {% if '' == player.age %}
+                                    -{% else %}
+                                    {{ player.age }}{% endif %}</p>
+                                <p><strong><i class="fa fa-calendar"></i> Fecha de nacimiento:</strong>
+                                    {% if '' == player.birthDate %}
+                                        -{% else %}
+                                        {{ player.birthDate }}{% endif %}</p>
+                                <p><strong><i class="fa fa-map-marker"></i> Lugar de nacimiento:</strong>
+                                    {% if '' == player.birthDate %}
+                                        -{% else %}
+                                        {{ player.birthDate }}{% endif %}</p>
+                                <p><strong><i class="fa fa-arrows-v"></i> Altura:</strong> {% if '' == player.height %}
+                                    -
+                                    {% else %}{{ player.height }}
+                                    m{% endif %}</p>
+                                <p><strong><i class="fa fa-money"></i> Valor aprox:</strong>
+                                    {% if '' == player.height %}-{% else %}
+                                        {{ player.value|intcomma }} €{% endif %}</p>
+                            </div>
+                            <div class="col-md-4" style="font-size: 14px">
+
+                                <p><strong><i class="fa fa-crosshairs"></i> Dorsal:</strong>
+                                    {% if '' == player.number %}
+                                        -{% else %}
+                                        {{ player.number }}{% endif %}</p>
+                                <p><strong><i class="fa fa-coffee"></i> Agente:</strong> {% if '' == player.agent %}
+                                    -{% else %}
+                                    {{ player.agent }}{% endif %}</p>
+                                <p><strong><i class="fa fa-newspaper-o"></i> Proveedor:</strong>
+                                    {% if '' == player.outfitter %}-{% else %}
+                                        {{ player.outfitter }}{% endif %}</p>
+                                <p><strong><i class="fa fa-magic"></i> Pie:</strong> {% if '' == player.foot %}
+                                    -{% else %}
+                                    {{ player.foot }}{% endif %}</p>
+                                <p><strong><i class="fa fa-map-pin"></i> Posición:</strong>
+                                    {% if '' == player.position %}-{% else %}
+                                        {{ player.position }}{% endif %}</p>
+                                <p><strong><i class="fa fa-calendar-times-o"></i> Fichado:</strong>
+                                    {% if '' == player.inTheTeamSince %}-{% else %}
+                                        {{ player.inTheTeamSince }}{% endif %}</p>
+                                <p><strong><i class="fa fa-calendar-times-o"></i> Contrato hasta:</strong>
+                                    {% if '' == player.contractUntil %}-{% else %}
+                                        {{ player.contractUntil }}{% endif %}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-12"><hr></div>
+                            <div class="col-md-4 text-center">
+
+                                <p style="color: #455D7A"><strong>Popularidad:</strong> {{ player.likes }} <i class="fa fa-heart" aria-hidden="true"
+                                                                             style="color: #F95959;"></i></p>
+                            </div>
+                            <div class="col-md-8 text-center">
+                                <a href="{% url 'scout:player_list' player.team.id %}" class="btn btn-default" style="color:#455D7A"><i
+                                        class="fa fa-mail-reply" aria-hidden="true"></i> -volver</a>
+                                {% if player.id in players_id %}
+                                    <a id="removePlayer" href="{% url 'scout:removeJugador' player.id %}"
+                                       class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>
+
+                                {% else %}
+                                    <a id="addPlayer" href="{% url 'scout:addJugador' player.id %}"
+                                       class="btn btn-default"><i class="fa fa-plus-square"></i> - Añadir</a>
+
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12 text-center" style="color: #455D7A">
+                            <hr>
+                            <h3><i class="fa fa-line-chart" style="color:#F95959"></i> Estadísticas de rendimiento</h3>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-md-12">
+                            <div class="box-border">
+                                <table id="gestion-equipo"class="table table-hover table-list-search">
+                                    <thead style="font-size: 10px">
+                                    <tr>
+                                        <td>Temporada</td>
+                                        <td>Competición</td>
+                                        <td>Club</td>
+                                        <td>Plantilla</td>
+                                        <td>Convocado</td>
+                                        <td>Pts partido</td>
+                                        <td>Gls</td>
+                                        <td>Ps.gol</td>
+                                        <td>Autogoles</td>
+                                        <td>Al campo</td>
+                                        <td>Al banq</td>
+                                        <td>T.Amr</td>
+                                        <td>x2 amrills</td>
+                                        <td>T.Rjs</td>
+                                        <td>Gls penal</td>
+                                        <td>Mins x gol</td>
+                                        <td>Mins jgds</td>
+                                        <td>Gls contra</td>
+                                        <td>No gls contra</td>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody style="font-size: 10px">
+                                    {% for r in player.performance_set.all %}
+                                        <tr>
+                                            <td><p style="line-height:30px">{{ r.season }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.championship }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.club }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.squad }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.principal }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.pointsPerMatch }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.goals }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.assists }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.ownGoals }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.subtitutedOn }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.subtitutedOff }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.yellowCards }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.doubleYellowCards }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.redCards }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.penaltyGoals }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.minutesPorGoal }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.minutesPlayed }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.concededGoald }}</p></td>
+                                            <td><p style="line-height:30px">{{ r.mathesWithoutGoals }}</p></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" style="color: #455D7A">
+                            <hr>
+                            <h3><i class="fa fa-sort-amount-desc" style="color:#F95959"></i> Historial de fichajes</h3>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-md-12">
+                            <div class="box-border">
+                                <table id="gestion-equipo" class="table table-hover table-list-search">
+                                    <thead>
+                                    <tr>
+                                        <td><strong>Temporada</strong></td>
+                                        <td><strong>Fecha</strong></td>
+                                        <td><strong>Último club</strong></td>
+                                        <td><strong>uevo club</strong></td>
+                                        <td><strong>Valor aprox</strong></td>
+                                        <td><strong>Coste</strong></td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for f in player.history_set.all %}
+                                        <tr>
+                                            <td><p style="line-height:25px">{{ f.season }}</p></td>
+                                            <td><p style="line-height:30px">{{ f.date }}</p></td>
+                                            <td><p style="line-height:30px">{{ f.movingFrom }}</p></td>
+                                            <td><p style="line-height:30px">{{ f.movingTo }}</p></td>
+                                            <td><p style="line-height:30px">{{ f.value|intcomma }} €</p></td>
+                                            <td><p style="line-height:30px">{{ f.cost }}</p></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block extrastatic %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row" style="color:#455D7A">
+            <div class="col-md-12 text-center"><h2><i class="fa fa-refresh"></i> Actualiza tu perfil<hr></h2>
+
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="username">Nombre de usuario:</label>
+                                    {{ user_form.username }}
+                                </div>
+                                <br>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="username">Nombre:</label>
+                                    {{ user_form.first_name }}
+                                </div>
+                                <br>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="username">Apellidos:</label>
+                                    {{ user_form.last_name }}
+                                </div>
+                                <br>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="username">Correo electrónico:</label>
+                                    {{ user_form.email }}
+                                </div>
+                                <br>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="username">Sexo:</label>
+                                    {{ profile_form.sex }}
+                                </div>
+                                <br>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="username">Fecha de nacimiento:</label>
+                                    {{ profile_form.birth_date }}
+                                </div>
+                                <br>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="username">Localización:</label>
+                                    {{ profile_form.location }}
+                                </div>
+                                <br>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="username">Imagen del perfil:</label>
+                                    {{ profile_form.image }}
+                                </div>
+                                <br>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="username">Biografía:</label>
+                                    {{ profile_form.bio }}
+                                </div>
+                                <br>
+                            </div>
+                            <div class="colmd-12 text-center">
+                                <a id="volver" style="width: 120px" class="btn btn-default"
+                                   href="{% url 'usuario:perfil' usuario_id %}"><i class="fa fa-reply"></i> Volver</a>
+                                <button class="btn btn-primary" style="width: 120px" type="submit"><i
+                                        class="fa fa-refresh"></i> Actualizar
+                                </button>
+                                <br></div>
+                        </form>
+                    </div>
+                    <br><br>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('input[name="birth_date"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            });
+        });
+
+
+    </script>
+
+    <script>$('input[name="daterange"]').daterangepicker();</script>
+
+{% endblock %}
