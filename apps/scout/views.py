@@ -56,7 +56,6 @@ def player_list(request, team_id):
 
 def squad_list(request):
     squads = Squad.objects.all()
-    print(squads)
     sorted_squads = []
     sorted_squad_single = []
     sqd = []
