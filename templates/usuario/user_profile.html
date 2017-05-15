@@ -136,7 +136,7 @@
                                         <td><span class="pos-1">PT</span></td>
                                         <td><p style="line-height:25px">{{ jugador.position }}</p></td>
                                         <td><p style="line-height:25px">{{ jugador.value|intcomma }} €</p></td>
-                                        <td><a href="{% url 'scout:equipo' jugador.team.id %}"><img
+                                        <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img
                                                 src="{{ jugador.team.badge }}"
                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
                                     </tr>
@@ -152,7 +152,7 @@
                                         <td><span class="pos-2">DF</span></td>
                                         <td><p style="line-height:25px">{{ jugador.position }}</p></td>
                                         <td><p style="line-height:25px">{{ jugador.value|intcomma }} €</p></td>
-                                        <td><a href="{% url 'scout:equipo' jugador.team.id %}"><img
+                                        <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img
                                                 src="{{ jugador.team.badge }}"
                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
                                     </tr>
@@ -168,7 +168,7 @@
                                         <td><span class="pos-3">MC</span></td>
                                         <td><p style="line-height:25px">{{ jugador.position }}</p></td>
                                         <td><p style="line-height:25px">{{ jugador.value|intcomma }} €</p></td>
-                                        <td><a href="{% url 'scout:equipo' jugador.team.id %}"><img
+                                        <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img
                                                 src="{{ jugador.team.escudo }}"
                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
                                     </tr>
@@ -179,12 +179,12 @@
                                     <tr class="text-center">
                                         <td><img src="{{ jugador.image }}"
                                                  style="width:24px; height: auto; border-radius: 4px"></td>
-                                        <td><a href="{% url 'scout:perfilJugador' jugador.id %}"><p
+                                        <td><a href="{% url 'scout:player_profile' jugador.id %}"><p
                                                 style="line-height:25px"></p>{{ jugador.name }}</a></td>
                                         <td><span class="pos-4">DL</span></td>
                                         <td><p style="line-height:25px">{{ jugador.position }}</p></td>
                                         <td><p style="line-height:25px">{{ jugador.value|intcomma }} €</p></td>
-                                        <td><a href="{% url 'scout:equipo' jugador.team.id %}"><img
+                                        <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img
                                                 src="{{ jugador.team.badge }}"
                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
                                     </tr>
