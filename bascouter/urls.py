@@ -7,6 +7,7 @@ from django.contrib.auth.views import  password_reset, password_reset_done, \
 from apps.usuario.views import index_view
 from django.conf import settings
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index_view, name='index'),

@@ -4,6 +4,7 @@ from django.contrib.auth.views import logout, password_change, password_change_d
 from apps.usuario.views import SignUp, profile, editarBusqueda, ProfileView, comment_create, comment_delete, \
     comment_edit, UserList, follow_user, unfollow_user, following_list, followers_list
 
+
 urlpatterns = [
     url(r'^registrar', SignUp.as_view(), name="registrar"),
     url(r'^profile/(?P<user_id>\d+)/$', login_required(profile), name="profile"),

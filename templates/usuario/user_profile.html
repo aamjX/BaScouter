@@ -234,7 +234,7 @@
                                 <div class="col-md-2 col-sm-2 hidden-xs">
                                     <figure class="thumbnail">
                                         <img class="img-responsive"
-                                             src="{{ comment.author.profile.image }}"/>
+                                             src="{{ comment.author.profile.image.url }}"/>
                                         <figcaption class="text-center"><a name="comment{{ comment.id }}"
                                                                            style="color:#233142"
                                                                            href="{% url 'usuario:profile' comment.user.id %}">{{ comment.author.username }}</a>

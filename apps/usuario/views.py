@@ -7,6 +7,8 @@ from apps.usuario.forms import LoginForm, SignUpForm, CommentForm, ProfileUpdate
 from django.contrib.auth.models import User
 from apps.scout.views import ordenarJugadores
 
+
+
 '''----------------------------------------------------------------------------------------------------------'''
 
 '''Login y registro de usuario'''
@@ -271,3 +273,4 @@ def comment_delete(request, id_comment):
             return render(request, 'error/error_1.html')
     else:
         return render(request, 'error/error_1.html')
+
