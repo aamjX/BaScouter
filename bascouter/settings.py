@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'apps.scout',
     'apps.usuario',
+    'cookielaw',
 ]
 
 MIDDLEWARE = [

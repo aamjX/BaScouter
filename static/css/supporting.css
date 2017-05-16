@@ -889,7 +889,7 @@ table.table-condensed thead {
 }
 
 a {
-    color:#455D7A;
+    color: #455D7A;
 }
 
 #id_old_password, #id_new_password1, #id_new_password2 {
@@ -910,4 +910,52 @@ a {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 
+}
+
+#barraaceptacion {
+    display: none;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    padding-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    min-height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    z-index: 99999;
+}
+
+.inner {
+    width: 100%;
+    position: absolute;
+    padding-left: 5px;
+    font-family: verdana;
+    font-size: 12px;
+    top: 30%;
+}
+
+.inner a.ok {
+    padding: 4px;
+    color: #00ff2e;
+    text-decoration: none;
+}
+
+.inner a.info {
+    padding-left: 5px;
+    text-decoration: none;
+    color: #faff00;
+}
+
+#CookielawBanner {
+    background: #e3e3e3;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 5000;
+}
+
+#CookielawBanner a{
+ background-color: red;
 }

@@ -253,3 +253,15 @@ footer p{
         background-attachment: scroll;
     }
 }
+
+#CookielawBanner {
+    background: #e3e3e3;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 5000;
+}
+
+#CookielawBanner a{
+ background-color: red;
+}
