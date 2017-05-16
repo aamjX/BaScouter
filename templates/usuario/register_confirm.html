@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="alert alert-info"
+                     style="background-color: white; border: 1px solid #455D7A; color:#455D7A;">
+                    <strong>¡Enhorabuena!</strong> Su registro ha sido completado con éxito, ya puede iniciar sesión
+                    desde <strong><a href="{% url 'index' %}">aquí</a></strong>.
+                    <br>
+
+                </div>
+                <a style="color:#455D7A;" href="{% url 'index' %}" class="btn btn-default"><i
+                        class="fa fa-thumbs-o-up"></i> Vale</a>
+                <br><br><br>
+            </div>
+        </div>
+    </div>
+{% endblock %}

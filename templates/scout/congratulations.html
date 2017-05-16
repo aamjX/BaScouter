@@ -8,23 +8,27 @@
             <div class="col-md-12 text-center">
                 <br><br>
                 {% if isAdd == True %}
-                    <div class="alert alert-success" role="alert">¡Enhorabuena! Has <strong>añadido</strong> a <a
-                            href="{% url 'scout:player_profile' player.id %}">{{ player.name }}</a> a tu plantilla de
+                    <div style="background-color: white; border: 1px solid #455D7A; color:#455D7A;"
+                         class="alert alert-info">¡Enhorabuena! Has <strong><span style="color: rgba(47, 180, 139, 0.86)">AÑADIDO</span></strong> a <strong><a
+                            href="{% url 'scout:player_profile' player.id %}">{{ player.name }}</a></strong> a tu plantilla de
                         jugadores.
-                        Puedes gestionar tu equipo desde <a href="{% url 'scout:manage_squad' %}"><i
-                                class="fa fa-wrench"></i>
-                        Gestionar mi plantilla</a></li> </div><br>
-                    <a style="color:#455D7A;" href="{% url 'scout:player_profile' player.id %}" class="btn btn-default"><i class="fa fa-thumbs-o-up"></i> Vale</a>
+                        Puedes gestionar tu equipo desde <i
+                                class="fa fa-wrench"></i> <strong><a href="{% url 'scout:manage_squad' %}">
+                            Gestionar mi plantilla</a></strong> </div><br>
+                    <a style="color:#455D7A;" href="{% url 'scout:player_profile' player.id %}" class="btn btn-default"><i
+                            class="fa fa-thumbs-o-up"></i> Vale</a>
 
                 {% else %}
 
-                    <div class="alert alert-danger" role="alert">¡Enhorabuena! Has <strong>eliminado</strong> a <a
-                            href="{% url 'scout:player_profile' player.id %}">{{ jugador.alias }}</a> a tu plantilla de
+                    <div style="background-color: white; border: 1px solid #455D7A; color:#455D7A;"
+                         class="alert alert-info">¡Enhorabuena! Has <strong><span style="color: #F95959">ELIMINADO</span></strong> a <strong><a
+                            href="{% url 'scout:player_profile' player.id %}">{{ player.name }}</a></strong> de tu plantilla de
                         jugadores.
-                        Puedes gestionar tu equipo desde <a href="{% url 'scout:manage_squad' %}"><i
-                                class="fa fa-wrench"></i>
-                        Gestionar mi plantilla</a></li> </div><br>
-                    <a style="color:#455D7A;" href="{% url 'scout:player_list' team.id %}" class="btn btn-default"><i class="fa fa-thumbs-o-up"></i> Vale</a>
+                        Puedes gestionar tu equipo desde <i
+                                class="fa fa-wrench"></i> <strong><a href="{% url 'scout:manage_squad' %}">
+                            Gestionar mi plantilla</a></strong> </div><br>
+                    <a style="color:#455D7A;" href="{% url 'scout:player_list' team.id %}" class="btn btn-default"><i
+                            class="fa fa-thumbs-o-up"></i> Vale</a>
 
                 {% endif %}
                 <br><br><br><br>

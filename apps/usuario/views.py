@@ -2,10 +2,8 @@ from django.shortcuts import render, redirect, reverse
 from apps.usuario.models import Profile, SearchValues, Comment
 from apps.scout.models import Squad
 from django.views.generic import CreateView, View
-from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import authenticate, login
 from apps.usuario.forms import LoginForm, SignUpForm, CommentForm, ProfileUpdateForm, SearchValuesForm, UserUpdateForm
-from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from apps.scout.views import ordenarJugadores
 
@@ -16,29 +14,31 @@ from apps.scout.views import ordenarJugadores
 '''----------------------------------------------------------------------------------------------------------'''
 
 def index_view(request):
-    if request.method == 'POST':
-        formulario = LoginForm(request.POST)
-        if formulario.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('scout:principal')
+    if request.user.is_authenticated():
+        return redirect('scout:principal')
+    else:
+        if request.method == 'POST':
+            formulario = LoginForm(request.POST)
+            if formulario.is_valid():
+                username = request.POST['username']
+                password = request.POST['password']
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('scout:principal')
+                else:
+                    return render(request, 'error/error_2.html')
             else:
                 return render(request, 'error/error_2.html')
         else:
-            return render(request, 'error/error_2.html')
-    else:
-        formulario = LoginForm()
-    return render(request, 'index.html', {'formulario': formulario})
+            formulario = LoginForm()
+        return render(request, 'index.html', {'formulario': formulario})
 
 
 class SignUp(CreateView):
     model = User
     template_name = 'usuario/sing_up.html'
     form_class = SignUpForm
-    success_url = reverse_lazy('index')
 
     def get_context_data(self, **kwargs):
         context = super(SignUp, self).get_context_data(**kwargs)
@@ -58,7 +58,7 @@ class SignUp(CreateView):
             alineacion = Squad.create(user)
             alineacion.save()
 
-            return HttpResponseRedirect(self.get_success_url())
+            return render(request, 'usuario/register_confirm.html')
 
         else:
 
@@ -102,29 +102,35 @@ def followers_list(request, usuario_id):
 
 
 def profile(request, user_id):
-    user = User.objects.get(id=user_id)
-    principals_id = []
-    following_id = []
-    followedBy_id = []
-    squad = Squad.objects.get(user=user)
-    sorted_players = ordenarJugadores(squad.players.all())
-    comments = Comment.objects.filter(user=user)
 
-    for t in squad.principals.all():
-        principals_id.append(t.id)
+    if User.objects.filter(id=user_id).exists():
 
-    for u in user.profile.followed_by.all():
-        followedBy_id.append(u.id)
+        user = User.objects.get(id=user_id)
+        principals_id = []
+        following_id = []
+        followedBy_id = []
+        squad = Squad.objects.get(user=user)
+        sorted_players = ordenarJugadores(squad.players.all())
+        comments = Comment.objects.filter(user=user)
 
-    for u in user.profile.following.all():
-        following_id.append(u.id)
+        for t in squad.principals.all():
+            principals_id.append(t.id)
 
-    return render(request, 'usuario/user_profile.html',
-                  {'user': user, 'squad': squad, 'porteros': sorted_players['porteros'],
-                   'defensas': sorted_players['defensas'], 'medios': sorted_players['medios'],
-                   'delanteros': sorted_players['delanteros'],
-                   'principals_id': principals_id, 'comments': comments, 'following_id': following_id,
-                   'followedBy_id': followedBy_id})
+        for u in user.profile.followed_by.all():
+            followedBy_id.append(u.id)
+
+        for u in user.profile.following.all():
+            following_id.append(u.id)
+
+        return render(request, 'usuario/user_profile.html',
+                      {'user': user, 'squad': squad, 'porteros': sorted_players['porteros'],
+                       'defensas': sorted_players['defensas'], 'medios': sorted_players['medios'],
+                       'delanteros': sorted_players['delanteros'],
+                       'principals_id': principals_id, 'comments': comments, 'following_id': following_id,
+                       'followedBy_id': followedBy_id})
+    else:
+
+        return render(request, 'error/error_1.html')
 
 
 '''----------------------------------------------------------------------------------------------------------'''
@@ -135,6 +141,7 @@ def profile(request, user_id):
 
 
 class ProfileView(View):
+
     def get(self, request):
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
@@ -207,6 +214,7 @@ def unfollow_user(request, usuario_id):
         return redirect('usuario:user_list')
 
     else:
+
         return redirect('usuario:user_list')
 
 

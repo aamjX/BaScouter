@@ -28,31 +28,46 @@ def principal_view(request):
 
 
 def team_list(request, championship_id):
-    championship = Championship.objects.get(pk=championship_id)
-    teamsCount = len(championship.team_set.all())
-    playerCount = 0
-    value = 0
 
-    for team in championship.team_set.all():
-        playerCount = playerCount + len(team.player_set.all())
+    if Championship.objects.filter(id=championship_id).exists():
 
-    for team in championship.team_set.all():
-        value = value + team.value
+        championship = Championship.objects.get(pk=championship_id)
+        teamsCount = len(championship.team_set.all())
+        playerCount = 0
+        value = 0
 
-    teams = Team.objects.filter(championship=championship)
-    return render(request, 'scout/team_list.html',
-                  {'teams': teams, 'championship': championship, 'teamsCount': teamsCount, 'playerCount': playerCount,
-                   'value': value})
+        for team in championship.team_set.all():
+            playerCount = playerCount + len(team.player_set.all())
+
+        for team in championship.team_set.all():
+            value = value + team.value
+
+        teams = Team.objects.filter(championship=championship)
+        return render(request, 'scout/team_list.html',
+                      {'teams': teams, 'championship': championship, 'teamsCount': teamsCount, 'playerCount': playerCount,
+                       'value': value})
+
+    else:
+
+        return render(request, 'error/error_1.html')
+
 
 
 def player_list(request, team_id):
-    players_id = []
-    team = Team.objects.get(pk=team_id)
-    squad = Squad.objects.get(user=request.user)
-    for player in squad.players.all():
-        players_id.append(player.id)
-    return render(request, 'scout/player_list.html',
-                  {'players': team.player_set.all(), 'team': team, 'players_id': players_id})
+
+    if Player.objects.filter(id=team_id):
+
+        players_id = []
+        team = Team.objects.get(pk=team_id)
+        squad = Squad.objects.get(user=request.user)
+        for player in squad.players.all():
+            players_id.append(player.id)
+        return render(request, 'scout/player_list.html',
+                      {'players': team.player_set.all(), 'team': team, 'players_id': players_id})
+    else:
+
+        return render(request, 'error/error_1.html')
+
 
 
 def squad_list(request):

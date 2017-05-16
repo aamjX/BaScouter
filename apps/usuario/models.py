@@ -1,9 +1,6 @@
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import User
-import os
 from datetime import datetime
 
 class Profile(models.Model):
@@ -14,12 +11,15 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     image = models.ImageField(upload_to='documents/%Y/%m/%d/', null=True, default='perfil.png')
     followed_by = models.ManyToManyField(User, related_name='followed_by')
-    following = models.ManyToManyField(User, related_name='following')
+    following = models.ManyToManyField(User ,related_name='following')
 
     @classmethod
     def create(cls, user):
         profile = cls(user=user)
         return profile
+
+    def __str__(self):
+        return self.user.username
 
 class SearchValues(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
