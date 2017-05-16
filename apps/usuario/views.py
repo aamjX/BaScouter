@@ -25,8 +25,10 @@ def index_view(request):
             if user is not None:
                 login(request, user)
                 return redirect('scout:principal')
+            else:
+                return render(request, 'error/error_2.html')
         else:
-            print('error')
+            return render(request, 'error/error_2.html')
     else:
         formulario = LoginForm()
     return render(request, 'index.html', {'formulario': formulario})
@@ -250,10 +252,15 @@ def comment_edit(request, id_comment):
 
 
 def comment_delete(request, id_comment):
-    comment = Comment.objects.get(id=id_comment)
-    if request.method == 'GET':
-        if comment.user.id == request.user.id or comment.author.id == request.user.id:
-            comment.delete()
-        return redirect(reverse('usuario:profile', kwargs={'user_id': comment.user.id}) + '#comentarios')
+    if Comment.objects.filter(id=id_comment):
+        comment = Comment.objects.get(id=id_comment)
+        if request.method == 'GET':
+            if comment.user.id == request.user.id or comment.author.id == request.user.id:
+                comment.delete()
+                return redirect(reverse('usuario:profile', kwargs={'user_id': comment.user.id}) + '#comentarios')
+            else:
+                return render(request, 'error/error_1.html')
+        else:
+            return render(request, 'error/error_1.html')
     else:
-        return redirect('error')
+        return render(request, 'error/error_1.html')

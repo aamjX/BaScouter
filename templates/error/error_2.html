@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="alert alert-danger" role="alert">
+                    Los datos introducidos son incorrectos. Introduzca unos válidos, y vuelva a intentarlo ¡Gracias!
+                </div>
+                <a style="color:#455D7A" class="btn btn-default" href="{% url 'index' %}"><i class="fa fa-frown-o" aria-hidden="true"></i> Volver</a>
+                <br><br><br>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

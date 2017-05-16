@@ -2,6 +2,11 @@ from django import forms
 from datetime import *
 from apps.scout.models import Player, Championship, Squad
 
+'''----------------------------------------------------------------------------------------------------------'''
+
+'''Formulario para la edicion de la plantilla'''
+
+'''----------------------------------------------------------------------------------------------------------'''
 
 class SquadForm(forms.ModelForm):
     class Meta:
@@ -19,6 +24,11 @@ class SquadForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'Descripción'}),
         }
 
+'''----------------------------------------------------------------------------------------------------------'''
+
+'''Formulario y renderizado de datos para la busqueda avanzada'''
+
+'''----------------------------------------------------------------------------------------------------------'''
 
 class BusquedaAvanzadaForm(forms.Form):
 
