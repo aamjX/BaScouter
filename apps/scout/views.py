@@ -356,8 +356,9 @@ def busqueda_avanzada(request):
 def autocomplete_search(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
-        equipos = Team.objects.filter(name__icontains=q)[:8]
-        usuarios = User.objects.filter(username__icontains=q)[:8]
+        equipos = Team.objects.filter(name__icontains=q)[:5]
+        usuarios = User.objects.filter(username__icontains=q)[:5]
+        jugadores = Player.objects.filter(name__icontains=q)[:5]
         results = []
         for equipo in equipos:
             datos_json = {}
@@ -368,15 +369,24 @@ def autocomplete_search(request):
             datos_json['value'] = equipo.name
             results.append(datos_json)
 
+        for jugador in jugadores:
+            datos_json = {}
+            datos_json['id'] = jugador.id
+            datos_json[
+                'label'] = jugador.name
+            datos_json['img'] = jugador.image
+            datos_json['value'] = jugador.name
+            results.append(datos_json)
+
         for usuario in usuarios:
             datos_json = {}
             datos_json['id'] = usuario.id
             datos_json[
-                'label'] = usuario.username + ' - <i class ="fa fa-heart" aria-hidden="true" style = "color: #F95959; font-size: 12px"></i> ' + str(
-                usuario.squad.likeCount)
+                'label'] = usuario.username + ' <i class ="fa fa-heart" aria-hidden="true" style = "color: #F95959; font-size: 12px"></i> ' + str(usuario.squad.likeCount)
             datos_json['img'] = usuario.profile.image
             datos_json['value'] = usuario.username
             results.append(datos_json)
+
 
         data = json.dumps(results)
     else:
@@ -389,19 +399,24 @@ def search(request):
     if request.method == 'GET':
         key = request.GET['key']
         if Team.objects.filter(name=key).exists():
-            print('hola')
             equipo = Team.objects.get(name=key)
             return redirect(reverse('scout:player_list', kwargs={'team_id': equipo.id}))
         elif User.objects.filter(username=key).exists():
             usuario = User.objects.get(username=key)
             return redirect(reverse('usuario:profile', kwargs={'user_id': usuario.id}))
+        elif Player.objects.filter(name=key).exists():
+            player = Player.objects.get(name=key)
+            return redirect(reverse('scout:player_profile', kwargs={'player_id': player.id}))
         else:
             equipos = Team.objects.filter(name__icontains=key)
             usuarios = User.objects.filter(username__icontains=key)
+            jugadores = Player.objects.filter(name__icontains=key)
 
             return render(request, 'scout/search_result.html',
-                          {'equipos': equipos, 'usuarios': usuarios, 'key_word': key})
+                          {'equipos': equipos, 'usuarios': usuarios, 'jugadores': jugadores, 'key_word': key})
+    else:
 
-    return redirect('scout:principal')
+        return render(request, 'error/error_1.html')
+
 
 

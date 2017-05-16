@@ -121,4 +121,6 @@ EMAIL_HOST_USER = 'bascouter.official@gmail.com'
 EMAIL_HOST_PASSWORD = 'p@ssW0rd'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
+LOGIN_URL = '/'
+
 
