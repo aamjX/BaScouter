@@ -23,3 +23,4 @@ urlpatterns = [
     url(r'^search/', search, name='search'),
 
 ]
+

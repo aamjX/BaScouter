@@ -1,10 +1,11 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 from apps.scout.views import *
-from django.contrib.auth.views import login
-from django.contrib.auth.views import login, password_reset, password_reset_done, \
+from django.conf.urls.static import static
+from django.contrib.auth.views import  password_reset, password_reset_done, \
     password_reset_confirm, password_reset_complete
 from apps.usuario.views import index_view
+from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,3 +26,6 @@ urlpatterns = [
     url(r'^reset/done', password_reset_complete, {'template_name': 'reset_password/password_reset_complete.html'},
         name='password_reset_complete'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

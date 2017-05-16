@@ -12,7 +12,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    image = models.CharField(null=True, blank=True, max_length=250)
+    image = models.ImageField(upload_to='documents/%Y/%m/%d/', null=True, default='perfil.png')
     followed_by = models.ManyToManyField(User, related_name='followed_by')
     following = models.ManyToManyField(User, related_name='following')
 

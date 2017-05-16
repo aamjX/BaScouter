@@ -46,7 +46,7 @@ class SignUpForm(UserCreationForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('sex','bio', 'location', 'birth_date', 'image',)
+        fields = ('sex','bio', 'location', 'birth_date', 'image')
         labels = {
             'sex': 'Sexo',
             'bio': 'Biografía',
@@ -59,7 +59,7 @@ class ProfileUpdateForm(forms.ModelForm):
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'bio': forms.Textarea(attrs={'class': 'form-control',}),
             'birth_date': forms.DateInput(attrs={'class': 'form-control'}),
-            'image': forms.TextInput(attrs={'class': 'form-control'}),
+            #'image': forms.ImageField(),
 
         }
 

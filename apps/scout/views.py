@@ -383,7 +383,7 @@ def autocomplete_search(request):
             datos_json['id'] = usuario.id
             datos_json[
                 'label'] = usuario.username + ' <i class ="fa fa-heart" aria-hidden="true" style = "color: #F95959; font-size: 12px"></i> ' + str(usuario.squad.likeCount)
-            datos_json['img'] = usuario.profile.image
+            datos_json['img'] = usuario.profile.image.url
             datos_json['value'] = usuario.username
             results.append(datos_json)
 

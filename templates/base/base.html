@@ -182,7 +182,7 @@
                             <li id="img-perfil"><a href="{% url 'usuario:profile' request.user.id %}">
                                 {% if '' == request.user.profile.image %}<img
                                         src="{% static 'img/perfil.png' %}">{% else %}<img
-                                        src="{{ request.user.profile.image }}">{% endif %}</a></li>
+                                        src="{{ request.user.profile.image.url }}">{% endif %}</a></li>
 
 
                         </ul>

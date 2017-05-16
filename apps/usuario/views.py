@@ -54,7 +54,6 @@ class SignUp(CreateView):
             searchValues = SearchValues.create(user)
             searchValues.save()
             profile = Profile.create(user)
-            profile.image = '/static/img/perfil.png'
             profile.save()
             alineacion = Squad.create(user)
             alineacion.save()
