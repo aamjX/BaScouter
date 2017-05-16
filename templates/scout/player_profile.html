@@ -85,7 +85,7 @@
                             </div>
                             <div class="col-md-8 text-center">
                                 <a href="{% url 'scout:player_list' player.team.id %}" class="btn btn-default" style="color:#455D7A"><i
-                                        class="fa fa-mail-reply" aria-hidden="true"></i> -volver</a>
+                                        class="fa fa-mail-reply" aria-hidden="true"></i> volver</a>
                                 {% if player.id in players_id %}
                                     <a onclick="return confirm('¿Seguro que desea realizar esta operación?')" id="removePlayer" href="{% url 'scout:remove_player_from_squad' player.id %}"
                                        class="btn btn-default"><i class="fa fa-minus-square"></i> - Eliminar</a>

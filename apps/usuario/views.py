@@ -5,7 +5,7 @@ from django.views.generic import CreateView, View
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import authenticate, login
 from apps.usuario.forms import LoginForm, SignUpForm, CommentForm, ProfileUpdateForm, SearchValuesForm, UserUpdateForm
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from apps.scout.views import ordenarJugadores
 
@@ -75,43 +75,22 @@ def UserList(request):
     return render(request, 'usuario/user_list.html', {'usuarios': usuarios})
 
 
-
-def follow_user(request, usuario_id):
-    if request.method == 'GET' and User.objects.filter(id=usuario_id).exists():
-        user = User.objects.get(id=usuario_id)
-        principal = request.user
-        if principal.id != user.id:
-            principal.profile.following.add(user)
-            user.profile.followed_by.add(request.user)
-        return redirect(reverse('usuario:profile', kwargs={'user_id': usuario_id}))
-
-    else:
-        return redirect('usuario:user_list')
-
-
-def unfollow_user(request, usuario_id):
-    if request.method == 'GET' and User.objects.filter(id=usuario_id).exists():
-        user = User.objects.get(id=usuario_id)
-        principal = request.user
-        if principal.id != user.id:
-            principal.profile.following.remove(user)
-            user.profile.followed_by.remove(request.user)
-        return redirect('usuario:list')
-
-    else:
-        return redirect('usuario:list')
-
-
 def following_list(request, usuario_id):
-    user = User.objects.get(id=usuario_id)
-    usuarios = user.profile.following.all()
-    return render(request, 'usuario/user_list.html', {'usuarios': usuarios})
+    if User.objects.filter(id=usuario_id).exists():
+        user = User.objects.get(id=usuario_id)
+        usuarios = user.profile.following.all()
+        return render(request, 'usuario/user_list.html', {'usuarios': usuarios})
+    else:
+        return render(request, 'error/error_1.html')
 
 
 def followers_list(request, usuario_id):
-    user = User.objects.get(id=usuario_id)
-    usuarios = user.profile.followed_by.all()
-    return render(request, 'usuario/user_list.html', {'usuarios': usuarios})
+    if User.objects.filter(id=usuario_id).exists():
+        user = User.objects.get(id=usuario_id)
+        usuarios = user.profile.followed_by.all()
+        return render(request, 'usuario/user_list.html', {'usuarios': usuarios})
+    else:
+        return render(request, 'error/error_1.html')
 
 
 '''----------------------------------------------------------------------------------------------------------'''
@@ -194,6 +173,40 @@ def editarBusqueda(request):
             })
 
     return render(request, 'usuario/search_values_edit.html', {'form': form})
+
+
+
+'''----------------------------------------------------------------------------------------------------------'''
+
+'''Funciones relacionadas con el sistema de amigos entre usuarios'''
+
+'''----------------------------------------------------------------------------------------------------------'''
+
+
+def follow_user(request, usuario_id):
+    if request.method == 'GET' and User.objects.filter(id=usuario_id).exists():
+        user = User.objects.get(id=usuario_id)
+        principal = request.user
+        if principal.id != user.id:
+            principal.profile.following.add(user)
+            user.profile.followed_by.add(request.user)
+        return redirect(reverse('usuario:profile', kwargs={'user_id': usuario_id}))
+
+    else:
+        return redirect('usuario:user_list')
+
+
+def unfollow_user(request, usuario_id):
+    if request.method == 'GET' and User.objects.filter(id=usuario_id).exists():
+        user = User.objects.get(id=usuario_id)
+        principal = request.user
+        if principal.id != user.id:
+            principal.profile.following.remove(user)
+            user.profile.followed_by.remove(request.user)
+        return redirect('usuario:user_list')
+
+    else:
+        return redirect('usuario:user_list')
 
 
 '''----------------------------------------------------------------------------------------------------------'''

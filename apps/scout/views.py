@@ -1,11 +1,12 @@
+from apps.scout.utils import ratingCalculte, favAlineaciones_ID_ByUser, ordenarJugadores
 from django.shortcuts import render, redirect, reverse, HttpResponse
 from django.db.models import Q
-from apps.scout.models import Championship, Team, Performance, Player, Squad, Like
-from apps.usuario.models import SearchValues
+from apps.scout.models import Championship, Team, Player, Squad, Like
 from apps.scout.forms import BusquedaAvanzadaForm, SquadForm
 from django.contrib.auth.models import User
 import time
 import json
+
 
 '''----------------------------------------------------------------------------------------------------------'''
 
@@ -234,26 +235,35 @@ def remove_from_principals(request, player_id):
 '''----------------------------------------------------------------------------------------------------------'''
 
 
-def addMeGusta(request, alineacion_id):
-    alineacion = Squad.objects.get(id=alineacion_id)
-    if not Like.objects.filter(user=request.user, squad=alineacion).exists():
-        mG = Like.create(request.user, alineacion)
-        alineacion.likeCount += 1
-        alineacion.save()
-        mG.save()
-    return redirect(reverse('scout:listar_alineaciones') + '#alineacion' + str(alineacion.id))
+def add_like(request, squad_id):
+    if Squad.objects.filter(id=squad_id).exists():
+        squad = Squad.objects.get(id=squad_id)
+        if not Like.objects.filter(user=request.user, squad=squad).exists():
+            like = Like.create(request.user, squad)
+            squad.likeCount += 1
+            squad.save()
+            like.save()
+        return redirect(reverse('scout:squad_list') + '#alineacion' + str(squad.id))
+    else:
+        return render(request, 'error/error_1.html')
 
 
-def removeMeGusta(request, alineacion_id):
-    alineacion = Squad.objects.get(id=alineacion_id)
-    user = request.user
-    meGusta = Like.objects.get(user=user, squad=alineacion)
-    if meGusta.user == request.user:
-        meGusta.delete()
-        alineacion.likeCount -= 1
-        alineacion.save()
+def remove_like(request, squad_id):
+    if Squad.objects.filter(id=squad_id).exists():
+        squad = Squad.objects.get(id=squad_id)
+        user = request.user
+        if Like.objects.filter(user=user, squad=squad).exists():
+            like = Like.objects.get(user=user, squad=squad)
+            if like.user == request.user:
+                like.delete()
+                squad.likeCount -= 1
+                squad.save()
 
-        return redirect(reverse('scout:listar_alineaciones') + '#alineacion' + str(alineacion.id))
+            return redirect(reverse('scout:squad_list') + '#alineacion' + str(squad.id))
+        else:
+            return render(request, 'error/error_1.html')
+    else:
+        return render(request, 'error/error_1.html')
 
 
 '''----------------------------------------------------------------------------------------------------------'''
@@ -340,20 +350,20 @@ def busqueda_avanzada(request):
                           {'jugadores': jugadores, 'utilizarRating': utilizarRating, 'ids_jugadores': ids_jugadores})
     else:
         formulario = BusquedaAvanzadaForm()
-    return render(request, 'scout/busqueda_avanzada.html', {'formulario': formulario})
+    return render(request, 'scout/advanced_search.html', {'formulario': formulario})
 
 
 def autocomplete_search(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
-        equipos = Player.objects.filter(name__icontains=q)[:8]
+        equipos = Team.objects.filter(name__icontains=q)[:8]
         usuarios = User.objects.filter(username__icontains=q)[:8]
         results = []
         for equipo in equipos:
             datos_json = {}
             datos_json['id'] = equipo.id
             datos_json[
-                'label'] = equipo.name + ' | <i class="fa fa-futbol-o" aria-hidden="true" style="font-size:12px"></i>'
+                'label'] = equipo.name
             datos_json['img'] = equipo.badge
             datos_json['value'] = equipo.name
             results.append(datos_json)
@@ -362,7 +372,7 @@ def autocomplete_search(request):
             datos_json = {}
             datos_json['id'] = usuario.id
             datos_json[
-                'label'] = usuario.username + ' | <i class ="fa fa-heart" aria-hidden="true" style = "color: #F95959; font-size: 12px"></i> ' + str(
+                'label'] = usuario.username + ' - <i class ="fa fa-heart" aria-hidden="true" style = "color: #F95959; font-size: 12px"></i> ' + str(
                 usuario.squad.likeCount)
             datos_json['img'] = usuario.profile.image
             datos_json['value'] = usuario.username
@@ -379,11 +389,12 @@ def search(request):
     if request.method == 'GET':
         key = request.GET['key']
         if Team.objects.filter(name=key).exists():
+            print('hola')
             equipo = Team.objects.get(name=key)
-            return redirect(reverse('scout:equipo', kwargs={'equipo_id': equipo.id}))
+            return redirect(reverse('scout:player_list', kwargs={'team_id': equipo.id}))
         elif User.objects.filter(username=key).exists():
             usuario = User.objects.get(username=key)
-            return redirect(reverse('usuario:perfil', kwargs={'usuario_id': usuario.id}))
+            return redirect(reverse('usuario:profile', kwargs={'user_id': usuario.id}))
         else:
             equipos = Team.objects.filter(name__icontains=key)
             usuarios = User.objects.filter(username__icontains=key)
@@ -394,93 +405,3 @@ def search(request):
     return redirect('scout:principal')
 
 
-'''----------------------------------------------------------------------------------------------------------'''
-
-'''Funciones auxiliares'''
-
-'''----------------------------------------------------------------------------------------------------------'''
-
-
-def ordenarJugadores(players):
-    porteros = []
-    defensas = []
-    medios = []
-    delanteros = []
-
-    for player in players:
-        if 'Portero' in player.position:
-            porteros.append(player)
-        elif 'Defensa' in player.position:
-            defensas.append(player)
-        elif 'Medio' in player.position:
-            medios.append(player)
-        elif 'Delantero' in player.position:
-            delanteros.append(player)
-
-    result = {'porteros': porteros, 'defensas': defensas, 'medios': medios, 'delanteros': delanteros}
-
-    return result
-
-
-def ratingCalculte(jugadores, user, temporada):
-    result = []
-    searchValues = SearchValues.objects.get(user=user)
-    for jugador in jugadores:
-        rating = 0
-        if temporada == '16/17' or temporada == '15/16':
-            rendimiento = Performance.objects.all().filter(player=jugador, season=temporada)
-        else:
-            rendimiento = Performance.objects.all().filter(player=jugador)
-        for r in rendimiento:
-
-            rating = rating + r.squad * (searchValues.squad) if r.squad != None else rating + 0
-            rating = rating + r.principal * (searchValues.principals) if r.principal != None else rating + 0
-            rating = rating + r.yellowCards * (searchValues.yellowCards) if r.yellowCards != None else rating + 0
-            rating = rating + r.redCards * (searchValues.redCards) if r.redCards != None else rating + 0
-
-            if 'Portero' in jugador.position:
-
-                rating = rating + r.goals * (searchValues.goalkeeper_goals) if r.goals != None else rating + 0
-                rating = rating + r.assists * (searchValues.goalkeeper_assists) if r.assists != None else rating + 0
-                rating = rating + r.ownGoals * (
-                    searchValues.goalkeeper_ownGoals) if r.ownGoals != None else rating + 0
-
-            elif 'Defensa' in jugador.position:
-
-                rating = rating + r.goals * (searchValues.defence_goals) if r.goals != None else rating + 0
-                rating = rating + r.assists * (searchValues.defence_assists) if r.assists != None else rating + 0
-                rating = rating + r.ownGoals * (
-                    searchValues.defence_ownGoals) if r.ownGoals != None else rating + 0
-
-            elif 'Medio' in jugador.position:
-
-                rating = rating + r.goals * (searchValues.midfield_goals) if r.goals != None else rating + 0
-                rating = rating + r.assists * (searchValues.midfield_assists) if r.assists != None else rating + 0
-                rating = rating + r.ownGoals * (
-                    searchValues.midfield_ownGoals) if r.ownGoals != None else rating + 0
-
-            elif 'Delantero' in jugador.position:
-
-                rating = rating + r.goals * (searchValues.striker_goals) if r.goals != None else rating + 0
-                rating = rating + r.assists * (searchValues.striker_assists) if r.assists != None else rating + 0
-                rating = rating + r.ownGoals * (
-                    searchValues.striker_ownGoals) if r.ownGoals != None else rating + 0
-
-        jugador.rating = rating
-        jugador.save()
-        result.append(jugador)
-
-    result = sorted(result, reverse=True)
-
-    return result
-
-
-def favAlineaciones_ID_ByUser(principal_user):
-    alinaciones_id = []
-    user = principal_user
-    user_meGustas = Like.objects.all().filter(user=user)
-
-    for uMG in user_meGustas:
-        alinaciones_id.append(uMG.squad.id)
-
-    return alinaciones_id

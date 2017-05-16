@@ -42,14 +42,14 @@
                             {% for equipo in equipos %}
                                 <tr>
                                 <td><p style="line-height:30px">{{ equipo.id }}</p></td>
-                                <td><img src="{{ equipo.escudo }}" style="width:30px; height: auto"></td>
-                                <td><a href="{% url 'scout:equipo' equipo.id %}"><p
-                                        style="line-height:30px">{{ equipo.nombre }}</p></a></td>
-                                <td><p style="line-height:30px">{{ equipo.plantilla }}</p></td>
-                                <td><p style="line-height:30px">{{ equipo.extranjeros }}</p></td>
-                                <td><p style="line-height:30px">{{ equipo.edadMedia }}</p></td>
-                                <td><p style="line-height:30px">{{ equipo.valor|intcomma }} €</p></td>
-                                <td><a id="showButton" href="{% url 'scout:equipo' equipo.id %}"
+                                <td><img src="{{ equipo.badge }}" style="width:30px; height: auto"></td>
+                                <td><a href="{% url 'scout:player_list' equipo.id %}"><p
+                                        style="line-height:30px">{{ equipo.name }}</p></a></td>
+                                <td><p style="line-height:30px">{{ equipo.squad }}</p></td>
+                                <td><p style="line-height:30px">{{ equipo.foreignCount }}</p></td>
+                                <td><p style="line-height:30px">{{ equipo.avgAge }}</p></td>
+                                <td><p style="line-height:30px">{{ equipo.value|intcomma }} €</p></td>
+                                <td><a id="showButton" href="{% url 'scout:player_list' equipo.id %}"
                                        class="btn btn-default"><i
                                         class="fa fa-eye" aria-hidden="true"></i> - Explorar</a>
                                 </td>
@@ -95,7 +95,7 @@
                                              style="width:40px; height: auto; border-radius: 4px">
                                     </td>
                                     <td><p style="line-height:30px"><a
-                                            href="{% url 'usuario:perfil' usuario.id %}">{{ usuario.username }}</a>
+                                            href="{% url 'usuario:profile' usuario.id %}">{{ usuario.username }}</a>
                                     </p></td>
                                     <td><p style="line-height:30px">{{ usuario.first_name }}</p></td>
                                     <td><p style="line-height:30px">{{ usuario.last_name }}</p></td>
@@ -103,7 +103,7 @@
                                     <td><p style="line-height:30px">{{ usuario.profile.location }}</p></td>
                                     <td>
                                         <p style="line-height:30px"><i class="fa fa-heart" aria-hidden="true"
-                                                                       style="color: #F95959; font-size: 13px"></i> {{ usuario.alineacion.numMeGustaTotales }}
+                                                                       style="color: #F95959; font-size: 13px"></i> {{ usuario.squad.likeCount }}
                                         </p>
                                     </td>
                                     <td><p style="line-height:30px">

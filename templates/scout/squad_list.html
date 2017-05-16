@@ -14,11 +14,11 @@
                             <div class="row">
                                 <div class="col-md-12" style="font-size: 12px; color: #455D7A">
                                     &nbsp;&nbsp;{% if alineacion.id not in squads_id %}
-                                    <a href="{% url 'scout:addMeGusta' alineacion.id %}"><i
+                                    <a href="{% url 'scout:add_like' alineacion.id %}"><i
                                             class="fa fa-heart-o"
                                             aria-hidden="true"></i></a>{% else %}
                                     <a style="color: #F95959;"
-                                       href="{% url 'scout:removeMeGusta' alineacion.id %}"><i
+                                       href="{% url 'scout:remove_like' alineacion.id %}"><i
                                             class="fa fa-heart"
                                             aria-hidden="true"></i></a>{% endif %} {{ alineacion.like_set.all|length }}
                                     | <i class="fa fa-user" aria-hidden="true"></i>:

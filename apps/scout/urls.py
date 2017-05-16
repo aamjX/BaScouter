@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from apps.scout.views import principal_view, team_list, player_list, busqueda_avanzada, \
     add_player_to_squad, remove_player_from_squad, manage_squad, add_to_principals, remove_from_principals, \
-    squad_edit, squad_list, addMeGusta, removeMeGusta, player_profile, autocomplete_search, search
+    squad_edit, squad_list, add_like, remove_like, player_profile, autocomplete_search, search
 
 urlpatterns = [
     url(r'^principal', principal_view, name='principal'),
@@ -16,8 +16,8 @@ urlpatterns = [
     url(r'^add_to_principals/(?P<player_id>\d+)/$', add_to_principals, name='add_to_principals'),
     url(r'^remove_from_principals/(?P<player_id>\d+)/$', remove_from_principals, name='remove_from_principals'),
     url(r'^squad_Edit', squad_edit, name='squad_edit'),
-    url(r'^addMeGusta/(?P<alineacion_id>\d+)/$', addMeGusta, name='addMeGusta'),
-    url(r'^removeMeGusta/(?P<alineacion_id>\d+)/$', removeMeGusta, name='removeMeGusta'),
+    url(r'^add_like/(?P<squad_id>\d+)/$', add_like, name='add_like'),
+    url(r'^remove_like/(?P<squad_id>\d+)/$', remove_like, name='remove_like'),
     url(r'^autocomplete_search/', autocomplete_search, name='autocomplete_search'),
     url(r'^search/', search, name='search'),
 

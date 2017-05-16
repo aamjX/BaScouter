@@ -39,7 +39,7 @@
                                 <p style="font-size: 16px;"><strong><i class="fa fa-heart" aria-hidden="true"
                                                                        style="color: #F95959; font-size: 18px"></i>
                                     totales recibidos:
-                                    {{ user.alineacion.numMeGustaTotales }}</strong></p>
+                                    {{ user.squad.likeCount }}</strong></p>
                             </div>
 
 
@@ -94,7 +94,7 @@
                                     <hr style="border: 1px solid #E3E3E3;">
                                     <a href="{% url 'scout:principal' %}" class="btn btn-default"
                                        style="color:#455D7A"><i
-                                            class="fa fa-mail-reply" aria-hidden="true"></i> - volver</a>
+                                            class="fa fa-mail-reply" aria-hidden="true"></i> volver</a>
                                     {% if user in request.user.profile.following.all %}
                                         <a id="removePlayer" class="btn btn-default"
                                            href="{% url 'usuario:unfollow' user.id %}"><i class="fa fa-user-times"></i>
@@ -169,7 +169,7 @@
                                         <td><p style="line-height:25px">{{ jugador.position }}</p></td>
                                         <td><p style="line-height:25px">{{ jugador.value|intcomma }} €</p></td>
                                         <td><a href="{% url 'scout:player_list' jugador.team.id %}"><img
-                                                src="{{ jugador.team.escudo }}"
+                                                src="{{ jugador.team.badge }}"
                                                 style="width:24px; height: auto; border-radius: 4px"></a></td>
                                     </tr>
                                 {% endif %}
@@ -208,7 +208,7 @@
                         <p><strong>Edad media: </strong>{{ user.squad.averageAge }} años</p>
                         <p><strong>Valor aprox: </strong>{{ user.squad.value|intcomma }} €</p>
                         <p><strong><i class="fa fa-heart" aria-hidden="true" style="color: #F95959;"></i> recibidos:
-                        </strong>{{ user.squad.likeCount_set.all|length }}</p><br>
+                        </strong>{{ user.squad.like_set.all|length }}</p><br>
                         <p class="text-center"><a id="showButton" style="color:#455D7A"
                                                   href="{% url 'scout:squad_list' %}"
                                                   class="btn btn-default"><i
