@@ -217,36 +217,6 @@ footer .nav > li > a:focus {
     background-color: transparent;
 }
 
-/**
-footer{
-	background-color: #2d3235;
-	padding-top: 30px;
-}
-
-footer h5{
-	color: #fff;
-	font-family: 'Raleway', sans-serif;
-	font-weight: 700;
-	font-size: 18px;
-}
-
-footer hr{
-	border-top: 2px solid #fff;
-}
-
-footer p{
-	color: #fff;
-	font-family: 'Lato', sans-serif;
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 24px;
-}
-
-.panel-pricing>.panel-footer{
-	padding: 0px; !important
-}
-**/
-
 /* Turn off parallax scrolling for tablets and phones. Increase the pixels if needed */
 @media only screen and (max-device-width: 1024px) {
     .parallax {
@@ -255,13 +225,15 @@ footer p{
 }
 
 #CookielawBanner {
-    background: #e3e3e3;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
     bottom: 0;
     position: fixed;
     width: 100%;
     z-index: 5000;
 }
 
-#CookielawBanner a{
- background-color: red;
+
+#cookieButton{
+    color: #233142;
 }

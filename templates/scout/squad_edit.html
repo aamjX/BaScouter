@@ -5,7 +5,7 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-12 text-center" style="color:#455D7A">
+            <div class="col-md-12 text-center" style="color:#233142">
                 <h2><i class="fa fa-keyboard-o"></i> Personaliza tu equipo</h2>
                 <hr>
             </div>
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             {% endif %}
-            <div class="col-md-12" style="color:#233142">
+            <div class="col-md-12" style="color:#455D7A">
                 <form id="form" method="post" action="">
                     {% csrf_token %}
                     {{ form.as_p }}

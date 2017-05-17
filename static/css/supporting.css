@@ -949,13 +949,15 @@ a {
 }
 
 #CookielawBanner {
-    background: #e3e3e3;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
     bottom: 0;
     position: fixed;
     width: 100%;
     z-index: 5000;
 }
 
-#CookielawBanner a{
- background-color: red;
+
+#cookieButton{
+    color: #233142;
 }
