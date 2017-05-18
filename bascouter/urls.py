@@ -29,6 +29,7 @@ urlpatterns = [
         name='password_reset_complete'),
     url(r'^cookies_directions',  TemplateView.as_view(template_name='law/cookies_directions.html'), name='cookies_directions'),
     url(r'^terms_and_conditions',  TemplateView.as_view(template_name='law/terms_and_conditions.html'), name='terms_and_conditions'),
+    url(r'^about_bascouter',  TemplateView.as_view(template_name='about_bascouter.html'), name='about_bascouter'),
 ]
 
 if settings.DEBUG:

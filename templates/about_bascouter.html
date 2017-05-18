@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center"><img style="width: 500px; height: auto"
+                                                    src="{% static 'img/LOGO 2.png' %}"></div>
+        </div>
+        <div class="row">
+            <hr>
+            <div class="col-md-4"><img style=" background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 50%;
+    background-size: 100% auto;" src="{% static 'img/me.jpeg' %}" class="img-responsive"> </div>
+                <div class="col-md-8 text-justify" style="color:#233142"><p>¡Hola! mi nombre es Antonio Ángel y tengo 21 años ^^. Soy estudiante de último curso
+                del grado de Ingeniería del Software por la Universidad de Sevilla y BaScouter es mi Trabajo de Fin de Grado.</p>
+                    <p><strong>¿Qué es BaScouter?</strong> Bien, su nombre es un juego de palabras de la frase en inglés "Become a Scouter", que viene
+                a significar algo así como "Conviertete en un Scouter". Entiendase por scouter como aquel profesional que busca talento en el mundo del fútbol.</p>
+                 <p>El objetivo de BaScouter es que puedas explorar entre miles de futbolistas, para incorporarlos a tu alineación personal y llegar a ser el mejor scouter
+                 de entre todos los que hay en el sistema ;) ¿Y como puede llegar a ser mejor? ¡Pues recibiendo muchos "me gustas"
+                       en tu alineación y comentarios en tu perfil por parte de los demás usuarios!
+                 </p>
+
+                    <p><strong>¿En que ha consistido el desarrollo de BaScouter?</strong> Pues bien, resumiento mucho, básicamente se ha basado en recolectar millones de datos
+                    sobre competiciones, equipos y jugadores de fútbol mediante web scraping. Estos datos, se han estructurado y formateado en diferentes datasets
+                    para alimentar una ambrienta base de datos MySQL. Y por último, gracias a Django en el backend y JavaScript, JQuery, Ajax, BootStrap, HTML5 Y CSS
+                    en el frontend ha resultado lo que tenéis ante vuestro ojos ¡BaScouter! ^-^ Podéis curiosear el repositorio de BaScouter en <a href="https://github.com/aamjX/BaScouter" target="_blank" >GitHub</a> si os apatece.</p>
+
+                    <p><strong>¿Es hora de qué os registréis no?</strong> ¡Venga! Podéis hacerlo desde <a href="{% url 'usuario:registrar' %}">aquí</a> o <a href="{% url 'index' %}">iniciar sesión</a> si ya sois parte de la comunidad.</p>
+
+                    <p>Atentamente Antonio Ángel. <strong>¡Guapos!</strong></p>
+
+                </div>
+
+        </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <br><br><br>
+        </div>
+    </div>
+
+    </div>
+{% endblock %}
