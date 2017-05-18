@@ -230,7 +230,7 @@
         <div class="borde">
             <h2 class="blanco">¿Tienes alguna petición que hacernos?</h2>
             <p>Tu opinión es muy importante para nosotros, envíanos un email a la siguiente dirección</p>
-            <a class="btn btn-default btn-lg">bascouter.official@gmail.com - <i class="fa fa-keyboard-o"></i></a>
+            <a class="btn btn-default btn-lg" data-toggle="modal" data-target="#myEmailModal">bascouter.official@gmail.com - <i class="fa fa-keyboard-o"></i></a>
         </div>
     </section>
 
@@ -244,7 +244,7 @@
                     <p class="text-justify">Encuentra jugadores a medida. Elige aquellos que creas que mejor pueden
                         venirle a tu equipo, comienza a
                         diseñar tu plantilla y <strong>¡Sé el mejor!</strong></p>
-                    <i class="fa fa-gavel" style="color: #e3e3e3"></i> <a href="#">Condiciones generales de uso de
+                    <i class="fa fa-gavel" style="color: #e3e3e3"></i> <a href="{% url 'terms_and_conditions' %}">Condiciones generales de uso de
                     BaScouter</a>
 
                 </div>
@@ -255,7 +255,7 @@
                     <p><a href="https://github.com/aamjX/BaScouter" target="_blank"><i class="fa fa-github"
                                                                                        aria-hidden="true"
                                                                                        style="font-size: 36px"></i></a>&nbsp;&nbsp;&nbsp;
-                        <a data-toggle="modal" data-target="#myModal"><i class="fa fa-telegram" aria-hidden="true"
+                        <a data-toggle="modal" data-target="#myModal" href="" ><i class="fa fa-telegram" aria-hidden="true"
                                                                          style="font-size: 34px"></i></a></p>
 
                 </div>
@@ -290,7 +290,7 @@
                     <h3 class="modal-title text-center">¡Envíanos un telegram!</h3>
                 </div>
                 <div class="modal-body text-center">
-                    <p><strong>Nuestro alias es @AAngelMJ</strong></p>
+                    <p>Nuestro alias es <strong>@AAngelMJ</strong></p>
                 </div>
                 <div class="modal-footer">
                     <a type="button" class="btn btn-default" data-dismiss="modal">Cerrar</a>
@@ -299,6 +299,26 @@
 
         </div>
     </div>
+
+    <div class="modal fade" id="myEmailModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="color: #455D7A">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title text-center">¡Envíanos un correo electrónico!</h3>
+            </div>
+            <div class="modal-body text-center">
+                <p>Nuestra dirección es <strong>bascouter.official@gmail.com</strong></p>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-default" data-dismiss="modal">Cerrar</a>
+            </div>
+        </div>
+
+    </div>
+</div>
 {% endblock %}
 
 
