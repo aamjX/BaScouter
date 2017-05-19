@@ -69,10 +69,10 @@ WSGI_APPLICATION = 'bascouter.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bascouter',
-        'USER': 'root',
+        'NAME': 'aamj$bascouter',
+        'USER': 'aamj',
         'PASSWORD': 'p@ssW0rd',
-        'HOST': '',
+        'HOST': 'aamj.mysql.pythonanywhere-services.com',
         'PORT': '',
     }
 }
