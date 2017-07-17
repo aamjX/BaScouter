@@ -54,4 +54,4 @@ los siguientes comandos:
 La aplicación puede ser visitada desde la siguiente dirección: http://127.0.0.1:8000/ (puede variar
 en función del host).
 
-También puede verse online en la siguiente dirección: www.bascouter.es
+También puede verse online en la siguiente dirección: http://aamj.pythonanywhere.com/
